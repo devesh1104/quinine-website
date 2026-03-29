@@ -177,8 +177,8 @@ tailwind.config = {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-  @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr !important; } }
   .service-card {
     position: relative; overflow: hidden;
     background: #F7F8FA; border-radius: 16px;
@@ -425,7 +425,7 @@ tailwind.config = {
       Secure Intelligence for the AI Era
     </h1>
     <p class="font-jakarta text-slate text-lg leading-relaxed max-w-[600px] mx-auto mb-10" id="heroSub" style="opacity:0;">
-      Artificial Intelligence is transforming how businesses operate. But without control, it introduces risks most organisations aren't prepared for. Quinine Cybersecurity helps you secure, govern, and manage AI across your enterprise — from data to decisions.
+      Enterprises are deploying LLMs and RAG pipelines at pace — but security hasn't kept up. Quinine Cybersecurity identifies vulnerabilities in your AI systems before attackers do, from prompt injection to knowledge base poisoning.
     </p>
     <div class="flex flex-wrap items-center justify-center gap-4 mb-12" id="heroCtas" style="opacity:0;">
       <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-4 text-[0.95rem]" data-magnetic>Secure Your AI Systems</a>
@@ -498,45 +498,105 @@ tailwind.config = {
   <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
     <div class="text-center mb-16">
       <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// What we deliver</span>
-      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] mb-5 services-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">Comprehensive Security Testing.</h2>
-      <p class="font-jakarta text-slate text-lg max-w-[560px] mx-auto">End-to-end security assessments across your AI, application, and infrastructure stack.</p>
+      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] mb-5 services-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">AI Security, From Model to Mission.</h2>
+      <p class="font-jakarta text-slate text-lg max-w-[600px] mx-auto">Specialist security assessments for organisations deploying AI — from LLM penetration testing to RAG pipeline hardening.</p>
     </div>
-    <div class="services-grid" id="servicesGrid">
-      <!-- Card 1 — AI & LLM (spans 2) -->
-      <div class="service-card span-2" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">01</span>
-        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">AI & LLM Security Assessment</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Specialist penetration testing for large language model deployments — prompt injection, data exfiltration, RAG pipeline security, and model manipulation.</p>
+
+    <!-- ── Primary Services (Available Now) ── -->
+    <div class="services-grid" id="servicesGrid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
+      <!-- Card 1 — LLM Security -->
+      <div class="service-card" data-service style="border-color: rgba(46,111,242,0.2);">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="font-mono text-electric font-semibold text-sm">01</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-electric/10 text-electric rounded-full px-3 py-1">Available Now</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">LLM Security Assessment</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed mb-5">Comprehensive penetration testing for large language model deployments — prompt injection testing, jailbreak testing, hallucination risk analysis, system prompt exposure detection, and output sanitisation validation.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Prompt Injection</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Jailbreak Testing</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Hallucination Risk</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">System Prompt Exposure</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Output Sanitisation</span>
+        </div>
       </div>
-      <!-- Card 2 -->
-      <div class="service-card" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">02</span>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Web Application Penetration Testing</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Security assessment of web applications to identify vulnerabilities from every avenue of attack, aligned to OWASP standards.</p>
+      <!-- Card 2 — RAG Security -->
+      <div class="service-card" data-service style="border-color: rgba(46,111,242,0.2);">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="font-mono text-electric font-semibold text-sm">02</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-electric/10 text-electric rounded-full px-3 py-1">Available Now</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">RAG Security Testing & Knowledge Base Hardening</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed mb-5">End-to-end security testing for retrieval-augmented generation pipelines — unauthorised document retrieval, embedding poisoning detection, vector index enumeration, metadata leakage, and RAG filter bypass detection.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Document Retrieval</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Embedding Poisoning</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Vector Index Enumeration</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Metadata Leakage</span>
+          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Filter Bypass</span>
+        </div>
       </div>
-      <!-- Card 3 -->
-      <div class="service-card" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">03</span>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Mobile Application Security</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Comprehensive security testing for iOS and Android applications — identifying exploitable vulnerabilities across all mobile platforms.</p>
+    </div>
+
+    <!-- ── Upcoming Services ── -->
+    <div class="mt-20 mb-12 text-center">
+      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Expanding our capabilities</span>
+      <h3 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1]" style="font-size:clamp(1.8rem, 3vw, 2.4rem);">Upcoming Services</h3>
+    </div>
+    <div class="services-grid" id="upcomingGrid">
+      <!-- Upcoming 1 — Agentic AI -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">03</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Agentic AI Security Testing</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Security testing for autonomous AI agents — privilege escalation, agent-to-agent communication, memory injection, tool misuse, and cascading failure analysis across multi-agent workflows.</p>
       </div>
-      <!-- Card 4 -->
-      <div class="service-card" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">04</span>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Infrastructure & Network Penetration Testing</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Identify vulnerabilities across your network, hosts, routers, switches, and firewalls with internal and external security assessments.</p>
+      <!-- Upcoming 2 — Continuous Red Teaming -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">04</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Continuous AI Red Teaming</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Ongoing adversarial testing embedded in your deployment pipeline — automated attack suites on model and prompt changes, continuous monitoring for prompt injection, data exfiltration, and privilege escalation.</p>
       </div>
-      <!-- Card 5 -->
-      <div class="service-card" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">05</span>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Secure Code Review</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Source-level security analysis to eliminate vulnerabilities at their origin — reducing fix cycles, development costs, and attack surface.</p>
+      <!-- Upcoming 3 — AI Supply Chain -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">05</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">AI Supply Chain Security</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Model provenance verification, AI bill of materials assessment, training data poisoning detection, open-source model risk evaluation, and supply chain dependency mapping for AI components.</p>
       </div>
-      <!-- Card 6 -->
-      <div class="service-card" data-service>
-        <span class="font-mono text-electric font-semibold text-sm mb-4 block">06</span>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Cloud Security Posture Assessment</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Evaluate your cloud security configuration, identify misconfigurations, and assess posture across AWS, Azure, and GCP environments.</p>
+      <!-- Upcoming 4 — AI IAM -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">06</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">AI Identity & Access Management</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Agent identity architecture review, privilege escalation testing for non-human identities, authentication and authorisation assessment, delegation chain evaluation, and zero trust for AI workloads.</p>
+      </div>
+      <!-- Upcoming 5 — Shadow AI Discovery -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">07</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Shadow AI Discovery & Governance</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Organisation-wide AI usage inventory, risk scoring of all discovered AI tools, data flow analysis, policy gap identification, and a prioritised remediation roadmap.</p>
+      </div>
+      <!-- Upcoming 6 — API & Endpoint -->
+      <div class="service-card" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-slate/40 font-semibold text-sm">08</span>
+          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+        </div>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">API & Endpoint Security Testing</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">API fuzzing, BOLA and BFLA checks, IDOR testing, rate limit bypass testing, and sensitive data exposure analysis for AI-connected endpoints.</p>
       </div>
     </div>
   </div>
@@ -712,12 +772,12 @@ tailwind.config = {
         <div class="form-field">
           <select id="concernSelect" required aria-label="Primary concern">
             <option value="" disabled selected>Primary Concern</option>
-            <option value="webapp">Web Application Security</option>
-            <option value="mobile">Mobile Application Security</option>
-            <option value="infra">Infrastructure & Network</option>
-            <option value="ai">AI & LLM Security</option>
-            <option value="cloud">Cloud Security</option>
-            <option value="code">Secure Code Review</option>
+            <option value="llm">LLM Security Assessment</option>
+            <option value="rag">RAG Security & Knowledge Base Hardening</option>
+            <option value="api">API & Endpoint Security</option>
+            <option value="agentic">Agentic AI Security</option>
+            <option value="governance">AI Governance & Compliance</option>
+            <option value="other">Other / General Enquiry</option>
           </select>
         </div>
         <button type="submit" class="submit-btn hoverable" id="submitBtn">Book Discovery Call</button>
@@ -1002,13 +1062,14 @@ tailwind.config = {
 
   // ── SPOTLIGHT EFFECT ──
   if (!isTouchDevice) {
-    const servicesGrid = document.getElementById('servicesGrid');
-    servicesGrid.addEventListener('mousemove', (e) => {
-      const cards = servicesGrid.querySelectorAll('.service-card');
-      cards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
-        card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    document.querySelectorAll('.services-grid').forEach(grid => {
+      grid.addEventListener('mousemove', (e) => {
+        const cards = grid.querySelectorAll('.service-card');
+        cards.forEach(card => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+          card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        });
       });
     });
   }
