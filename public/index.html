@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quinine Cybersecurity — Enterprise AI Security</title>
+<meta name="description" content="Quinine delivers specialist security assessments for organisations deploying AI — identifying risks in LLM systems, applications, and infrastructure before attackers do.">
+<link rel="canonical" href="https://quininecybersecurity.com">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230A2463'/><text x='50' y='72' font-size='60' font-weight='bold' text-anchor='middle' fill='white'>Q</text></svg>">
+<meta property="og:title" content="Quinine Cybersecurity — Enterprise AI Security">
+<meta property="og:description" content="Specialist security assessments for organisations deploying AI — identifying risks in LLM systems, applications, and infrastructure before attackers do.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://quininecybersecurity.com">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quinine Cybersecurity — Enterprise AI Security">
+<meta name="twitter:description" content="Specialist security assessments for organisations deploying AI.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: '#0A2463',
+        deepnavy: '#061439',
+        electric: '#2E6FF2',
+        glow: '#4A8BFF',
+        offwhite: '#F7F8FA',
+        cream: '#FAFBFE',
+        slate: '#202834'
+      },
+      fontFamily: {
+        syne: ['Arial', 'sans-serif'],
+        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace']
+      }
+    }
+  }
+}
+</script>
+<style>
+  /* ── Base ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #0A2463; overflow-x: hidden; }
+  ::selection { background: rgba(46,111,242,0.15); color: #0A2463; }
+
+  /* ── Noise Grain Overlay ── */
+  .noise-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9998; opacity: 0.025;
+  }
+
+  /* ── Preloader ── */
+  #preloader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #061439; z-index: 10000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  #preloader-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 8rem; color: #fff; letter-spacing: -0.035em; }
+  #preloader-counter { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: #2E6FF2; margin-top: 1.5rem; }
+
+  /* ── Custom Cursor ── */
+  @media (hover: hover) {
+    .cursor-dot {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: #0A2463; border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s cubic-bezier(0.16,1,0.3,1), border 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .cursor-dot.hovering {
+      width: 56px; height: 56px;
+      background: transparent;
+      border: 1px solid rgba(46,111,242,0.5);
+      backdrop-filter: invert(5%);
+    }
+  }
+  @media (hover: none) { .cursor-dot { display: none !important; } }
+
+  /* ── Nav ── */
+  #navbar {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 9000;
+    padding: 24px 48px;
+    transition: padding 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  #navbar.scrolled {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(226,232,240,0.5);
+    padding: 16px 48px;
+  }
+  .nav-link { position: relative; display: inline-block; }
+  .nav-link::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 100%; height: 1.5px; background: #0A2463;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  .cta-pill {
+    position: relative; overflow: hidden;
+    border: 1.5px solid #0A2463; border-radius: 9999px;
+    padding: 10px 28px; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600; font-size: 0.88rem; color: #0A2463;
+    background: transparent; cursor: pointer;
+    transition: color 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cta-pill::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; background: #0A2463;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    z-index: -1;
+  }
+  .cta-pill:hover::before { transform: scaleX(1); }
+  .cta-pill:hover { color: #fff; }
+
+  .cta-primary {
+    background: #0A2463; color: #fff; border-color: #0A2463;
+  }
+  .cta-primary::before { background: #2E6FF2; }
+
+  /* ── Hero ── */
+  #hero { position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(10,36,99,0.12); border-radius: 9999px;
+    padding: 8px 20px; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: #475569;
+  }
+  .badge-dot {
+    width: 6px; height: 6px; background: #0A2463; border-radius: 50%;
+    animation: badgePulse 2s ease infinite;
+  }
+  @keyframes badgePulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .word-line { overflow: hidden; display: inline-flex; }
+  .word { display: inline-block; transform: translateY(110%); }
+
+  /* ── Orb ── */
+  .orb-layer { position: absolute; border-radius: 50%; will-change: transform; }
+  .orb-core {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(46, 111, 242, 0.45) 0%, rgba(10, 36, 99, 0.15) 50%, transparent 70%);
+    filter: blur(60px); mix-blend-mode: multiply;
+  }
+  .orb-halo {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(74,139,255,0.25) 0%, transparent 65%);
+    filter: blur(100px);
+  }
+  .orb-ambient {
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(46,111,242,0.06) 0%, transparent 70%);
+    filter: blur(120px);
+  }
+
+  /* ── Marquee ── */
+  .marquee-track {
+    display: flex; white-space: nowrap; will-change: transform;
+  }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 24px;
+    padding: 0 24px; font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: 1.5rem; color: #fff; flex-shrink: 0;
+  }
+  .marquee-dot { width: 8px; height: 8px; background: #2E6FF2; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Services spotlight cards ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+  .service-card {
+    position: relative; overflow: hidden;
+    background: #F7F8FA; border-radius: 16px;
+    border: 1px solid rgba(10,36,99,0.08);
+    padding: 40px;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .service-card.span-2 { grid-column: span 2; }
+  @media (max-width: 768px) { .service-card.span-2 { grid-column: span 1; } }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.06), transparent 40%);
+    opacity: 0; transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none; z-index: 0;
+  }
+  .service-card::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 16px;
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.12), transparent 40%);
+    opacity: 0; transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none; z-index: 0;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude; -webkit-mask-composite: xor;
+    padding: 1px;
+  }
+  .services-grid:hover .service-card::before,
+  .services-grid:hover .service-card::after { opacity: 1; }
+  .service-card > * { position: relative; z-index: 1; }
+
+  @media (hover: hover) {
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(10,36,99,0.08);
+      border-color: rgba(46,111,242,0.2);
+    }
+  }
+
+  /* ── Timeline ── */
+  .timeline-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .step-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 2px solid #0A2463; display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem;
+    color: #0A2463; background: #fff;
+    transition: background 0.5s cubic-bezier(0.16,1,0.3,1), color 0.5s cubic-bezier(0.16,1,0.3,1);
+    flex-shrink: 0;
+  }
+  .step-circle.active { background: #0A2463; color: #fff; }
+
+  /* ── Frameworks accordion ── */
+  .framework-row {
+    border-bottom: 1px solid rgba(10,36,99,0.1);
+    padding: 24px 0; cursor: pointer;
+    transition: background 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .framework-row:hover { background: #FAFBFE; }
+  .framework-row .arrow {
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .framework-row.open .arrow { transform: rotate(90deg); }
+  .framework-desc {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .framework-row.open .framework-desc { max-height: 140px; opacity: 1; padding-top: 16px; }
+  .frameworks-list:hover .framework-row:not(:hover) { opacity: 0.4; }
+
+  /* ── CTA section color transition ── */
+  #cta-section { background: #fff; }
+
+  /* ── Form ── */
+  .form-field { position: relative; }
+  .form-field input, .form-field select {
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.3);
+    color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+    padding: 16px 0 12px; outline: none;
+    transition: border-color 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .form-field input:focus, .form-field select:focus {
+    border-color: #2E6FF2;
+    box-shadow: 0 2px 0 0 #2E6FF2;
+  }
+  .form-field label {
+    position: absolute; left: 0; top: 16px;
+    color: rgba(255,255,255,0.5); font-size: 1rem;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .form-field input:focus + label,
+  .form-field input:not(:placeholder-shown) + label {
+    top: -8px; font-size: 0.7rem; color: #2E6FF2;
+  }
+  .form-field select { appearance: none; cursor: pointer; }
+  .form-field select option { background: #061439; color: #fff; }
+
+  .submit-btn {
+    width: 100%; padding: 18px; border-radius: 9999px;
+    background: #fff; color: #0A2463; border: none;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem;
+    cursor: pointer;
+    transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s;
+  }
+  .submit-btn:hover { box-shadow: 0 0 30px rgba(255,255,255,0.15); }
+  .submit-btn.submitted { background: #22c55e; color: #fff; }
+
+  /* ── Mobile menu ── */
+  #mobile-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #061439; z-index: 8999;
+    clip-path: circle(0% at calc(100% - 48px) 32px);
+    transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  #mobile-overlay.open {
+    clip-path: circle(150% at calc(100% - 48px) 32px);
+    pointer-events: all;
+  }
+  .mobile-menu-item {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 7vw, 3.5rem); color: #fff;
+    display: block; padding: 8px 0; opacity: 0; transform: translateY(40px);
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .scroll-line {
+    width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(10,36,99,0.3), transparent);
+    animation: scrollBounce 2s ease infinite;
+  }
+  @keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(12px); opacity: 1; }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .word { transform: translateY(0) !important; opacity: 1 !important; }
+    #preloader { display: none !important; }
+  }
+
+  /* ── Mobile overrides ── */
+  @media (max-width: 768px) {
+    #navbar { padding: 16px 20px; }
+    #navbar.scrolled { padding: 12px 20px; }
+    .orb-core { width: 300px; height: 300px; }
+    .orb-halo { width: 400px; height: 400px; }
+    .orb-ambient { width: 500px; height: 500px; }
+    #preloader-text { font-size: 3.5rem; }
+  }
+
+  /* ── Focus visible ── */
+  :focus-visible {
+    outline: 2px solid #2E6FF2;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 9001; }
+  .hamburger span { width: 24px; height: 1.5px; background: #0A2463; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); display: block; }
+  .hamburger.open span:first-child { transform: rotate(45deg) translate(3px, 3px); }
+  .hamburger.open span:last-child { transform: rotate(-45deg) translate(3px, -3px); }
+  .hamburger.open span { background: #fff; }
+  @media (max-width: 1024px) { .hamburger { display: flex; } }
+</style>
+</head>
+<body>
+
+<!-- Noise Grain SVG Overlay -->
+<svg class="noise-overlay" aria-hidden="true">
+  <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+</svg>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- ════ PRELOADER ════ -->
+<div id="preloader" aria-hidden="true">
+  <div id="preloader-text">QUININE</div>
+  <div id="preloader-counter">0%</div>
+</div>
+
+<!-- ════ MOBILE OVERLAY ════ -->
+<div id="mobile-overlay" role="dialog" aria-label="Mobile navigation">
+  <nav class="flex flex-col items-center gap-2">
+    <a href="#services" class="mobile-menu-item" data-nav>Services</a>
+    <a href="#approach" class="mobile-menu-item" data-nav>Approach</a>
+    <a href="#frameworks" class="mobile-menu-item" data-nav>Frameworks</a>
+    <a href="#contact" class="mobile-menu-item" data-nav>Contact</a>
+  </nav>
+</div>
+
+<!-- ════ NAVIGATION ════ -->
+<header id="navbar" role="banner">
+  <div class="flex items-center justify-between max-w-[1400px] mx-auto">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-1.5 hoverable" aria-label="Quinine home">
+      <span class="font-syne font-extrabold text-navy text-xl tracking-tight">QUININE</span>
+      <span class="w-1.5 h-1.5 bg-electric rounded-full" style="animation: badgePulse 2s ease infinite;"></span>
+    </a>
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-10" aria-label="Main navigation">
+      <a href="#services" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Services</a>
+      <a href="#approach" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Approach</a>
+      <a href="#frameworks" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Frameworks</a>
+      <a href="#contact" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Contact</a>
+    </nav>
+    <!-- CTA + Hamburger -->
+    <div class="flex items-center gap-5">
+      <a href="#contact" class="cta-pill hoverable hidden lg:inline-block" data-magnetic>Book a Discovery Call</a>
+      <button class="hamburger lg:hidden hoverable" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ════ MAIN ════ -->
+<main>
+
+<!-- ════ HERO ════ -->
+<section id="hero" aria-label="Hero">
+  <div class="orb-container" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);" aria-hidden="true">
+    <div class="orb-layer orb-ambient" id="orbAmbient"></div>
+    <div class="orb-layer orb-halo" id="orbHalo"></div>
+    <div class="orb-layer orb-core" id="orbCore"></div>
+  </div>
+  <div class="relative z-10 text-center px-5 max-w-[900px] mx-auto">
+    <div class="hero-badge mb-8 mx-auto w-fit" id="heroBadge" style="opacity:0;">
+      <span class="badge-dot"></span>
+      <span>AI Security Specialists · Level39, Canary Wharf</span>
+    </div>
+    <h1 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.05] mb-8" style="font-size:clamp(3rem, 5.5vw, 5rem);" id="heroHeadline">
+      Secure Intelligence for the AI Era
+    </h1>
+    <p class="font-jakarta text-slate text-lg leading-relaxed max-w-[600px] mx-auto mb-10" id="heroSub" style="opacity:0;">
+      Artificial Intelligence is transforming how businesses operate. But without control, it introduces risks most organisations aren't prepared for. Quinine Cybersecurity helps you secure, govern, and manage AI across your enterprise — from data to decisions.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-4 mb-12" id="heroCtas" style="opacity:0;">
+      <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-4 text-[0.95rem]" data-magnetic>Secure Your AI Systems</a>
+      <a href="#services" class="cta-pill hoverable px-8 py-4 text-[0.95rem]" data-magnetic>Explore Our Approach</a>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs" id="heroTrust" style="opacity:0;">
+      <span class="font-mono text-slate tracking-wider uppercase text-[0.7rem]">Aligned to:</span>
+      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">OWASP</span>
+      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">ISO 42001</span>
+      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">MITRE ATLAS</span>
+      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">NIST AI RMF</span>
+    </div>
+  </div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════ CREDIBILITY MARQUEE ════ -->
+<section aria-label="Credibility" class="relative overflow-hidden" style="transform: rotate(-1deg) scale(1.05);">
+  <div class="bg-deepnavy py-5">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="marquee-inner flex">
+        <span class="marquee-item">OWASP LLM Top 10 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">ISO 42001 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">MITRE ATLAS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">EU AI Act <span class="marquee-dot"></span></span>
+        <span class="marquee-item">NIST AI RMF <span class="marquee-dot"></span></span>
+        <span class="marquee-item">OWASP LLM Top 10 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">ISO 42001 <span class="marquee-dot"></span></span>
+        <span class="marquee-item">MITRE ATLAS <span class="marquee-dot"></span></span>
+        <span class="marquee-item">EU AI Act <span class="marquee-dot"></span></span>
+        <span class="marquee-item">NIST AI RMF <span class="marquee-dot"></span></span>
+      </div>
+    </div>
+  </div>
+  <div class="bg-deepnavy border-t border-white/10 py-4">
+    <div class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-8 px-5">
+      <span class="font-jakarta text-white/70 text-sm">Level39, Canary Wharf</span>
+      <span class="w-1 h-1 bg-electric rounded-full"></span>
+      <span class="font-jakarta text-white/70 text-sm"><span id="statCounter" class="font-syne font-extrabold text-white">0</span>% of AI systems had critical vulnerabilities</span>
+      <span class="w-1 h-1 bg-electric rounded-full"></span>
+      <span class="font-jakarta text-white/70 text-sm">48hr response time</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROBLEM ════ -->
+<section id="problem" class="bg-offwhite" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="The challenge">
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
+      <div class="lg:w-[58%]">
+        <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-6 block">// The challenge</span>
+        <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] problem-heading" style="font-size:clamp(2.5rem, 4.5vw, 4rem);">
+          AI deployment has <span class="text-electric">outpaced</span> AI security by years.
+        </h2>
+      </div>
+      <div class="lg:w-[42%] lg:mt-20">
+        <p class="font-jakarta text-slate text-[1.1rem] leading-[1.8] problem-body" style="opacity:0;">
+          Enterprises are racing to deploy LLMs — chatbots, knowledge systems, decision engines — but the security architecture is fundamentally immature. No visibility into prompt injection surfaces, training data poisoning, or cascading RAG failures. The gap between deployment velocity and security readiness is where attackers operate.
+        </p>
+      </div>
+    </div>
+    <div class="mt-16 h-px bg-navy/10 problem-line" style="transform: scaleX(0); transform-origin: left;"></div>
+  </div>
+</section>
+
+<!-- ════ SERVICES ════ -->
+<section id="services" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Services">
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
+    <div class="text-center mb-16">
+      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// What we deliver</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] mb-5 services-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">Comprehensive Security Testing.</h2>
+      <p class="font-jakarta text-slate text-lg max-w-[560px] mx-auto">End-to-end security assessments across your AI, application, and infrastructure stack.</p>
+    </div>
+    <div class="services-grid" id="servicesGrid">
+      <!-- Card 1 — AI & LLM (spans 2) -->
+      <div class="service-card span-2" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">01</span>
+        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">AI & LLM Security Assessment</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Specialist penetration testing for large language model deployments — prompt injection, data exfiltration, RAG pipeline security, and model manipulation.</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="service-card" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">02</span>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Web Application Penetration Testing</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Security assessment of web applications to identify vulnerabilities from every avenue of attack, aligned to OWASP standards.</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="service-card" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">03</span>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Mobile Application Security</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Comprehensive security testing for iOS and Android applications — identifying exploitable vulnerabilities across all mobile platforms.</p>
+      </div>
+      <!-- Card 4 -->
+      <div class="service-card" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">04</span>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Infrastructure & Network Penetration Testing</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Identify vulnerabilities across your network, hosts, routers, switches, and firewalls with internal and external security assessments.</p>
+      </div>
+      <!-- Card 5 -->
+      <div class="service-card" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">05</span>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Secure Code Review</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Source-level security analysis to eliminate vulnerabilities at their origin — reducing fix cycles, development costs, and attack surface.</p>
+      </div>
+      <!-- Card 6 -->
+      <div class="service-card" data-service>
+        <span class="font-mono text-electric font-semibold text-sm mb-4 block">06</span>
+        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Cloud Security Posture Assessment</h3>
+        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Evaluate your cloud security configuration, identify misconfigurations, and assess posture across AWS, Azure, and GCP environments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ HOW IT WORKS ════ -->
+<section id="approach" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="How it works">
+  <div class="max-w-[1000px] mx-auto px-6 lg:px-10">
+    <div class="text-center mb-20">
+      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// How it works</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] approach-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">Three Steps to Secure.</h2>
+    </div>
+    <div class="relative">
+      <!-- SVG line -->
+      <svg class="absolute left-7 lg:left-7 top-0 h-full w-4" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true" style="overflow:visible;">
+        <line x1="2" y1="0" x2="2" y2="100" stroke="#2E6FF2" stroke-width="1.5" class="timeline-line" id="timelineLine" vector-effect="non-scaling-stroke" pathLength="1"/>
+      </svg>
+      <!-- Steps -->
+      <div class="space-y-32 lg:space-y-48">
+        <div class="flex gap-8 lg:gap-14 items-start step-item">
+          <div class="step-circle" data-step="1">1</div>
+          <div>
+            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Discovery</h3>
+            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">We learn your architecture, threat model, and compliance requirements.</p>
+          </div>
+        </div>
+        <div class="flex gap-8 lg:gap-14 items-start step-item">
+          <div class="step-circle" data-step="2">2</div>
+          <div>
+            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Assessment</h3>
+            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">Hands-on security testing against your live applications, infrastructure, and AI systems.</p>
+          </div>
+        </div>
+        <div class="flex gap-8 lg:gap-14 items-start step-item">
+          <div class="step-circle" data-step="3">3</div>
+          <div>
+            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Report & Remediation</h3>
+            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">Executive-ready findings with prioritised, actionable remediation guidance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-8 mt-24">
+      <span class="font-mono text-electric text-sm">48hr response</span>
+      <span class="w-1 h-1 bg-navy/30 rounded-full"></span>
+      <span class="font-mono text-electric text-sm">2–3 week delivery</span>
+      <span class="w-1 h-1 bg-navy/30 rounded-full"></span>
+      <span class="font-mono text-electric text-sm">Fixed-price scope</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FRAMEWORKS ════ -->
+<section id="frameworks" class="bg-offwhite" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Compliance frameworks">
+  <div class="max-w-[1000px] mx-auto px-6 lg:px-10">
+    <div class="mb-16">
+      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Frameworks</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] frameworks-heading" style="font-size:clamp(2rem, 4vw, 3rem);">Aligned to the standards your board is asking about.</h2>
+    </div>
+    <div class="frameworks-list" id="frameworksList">
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OWASP LLM Top 10</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Testing against every category in the OWASP Top 10 for LLM Applications.</p>
+          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OWASP Web Top 10</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Comprehensive testing against the OWASP Top 10 for web application vulnerabilities.</p>
+          <span class="font-mono text-electric text-xs">→ Web App Penetration Testing</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">MITRE ATLAS</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Adversarial threat modelling using the MITRE ATLAS framework for ML attack taxonomy.</p>
+          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">ISO 42001</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">AI management system standard — governance, risk assessment, responsible deployment.</p>
+          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">NIST AI RMF</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Alignment to the NIST AI Risk Management Framework for AI-specific risks.</p>
+          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">EU AI Act</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Compliance readiness — risk classification, transparency, conformity assessment.</p>
+          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+        </div>
+      </div>
+      <div class="framework-row" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OSSTMM</span>
+          <span class="arrow text-navy text-xl">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Open Source Security Testing Methodology for network and infrastructure assessments.</p>
+          <span class="font-mono text-electric text-xs">→ Infrastructure & Network Pen Testing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ TRUST ════ -->
+<section id="trust" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Trust">
+  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+      <div class="lg:w-[40%]">
+        <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Why enterprises trust Quinine</span>
+        <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] trust-heading" style="font-size:clamp(2rem, 4vw, 3rem);">Built for enterprise rigour.</h2>
+      </div>
+      <div class="lg:w-[60%] grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
+          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2">Level39</div>
+          <p class="font-jakarta text-slate text-[0.9rem]">Europe's largest fintech & cybersecurity accelerator</p>
+        </div>
+        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
+          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2" id="trustPercent">0%</div>
+          <p class="font-jakarta text-slate text-[0.9rem]">of assessed AI systems contained critical vulnerabilities</p>
+        </div>
+        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
+          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2">48hr</div>
+          <p class="font-jakarta text-slate text-[0.9rem]">from first contact to discovery call</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA + FOOTER ════ -->
+<section id="cta-section" aria-label="Contact">
+  <div id="contact" class="relative overflow-hidden" style="padding: clamp(100px, 14vw, 200px) 0 60px;">
+    <!-- Faint orb -->
+    <div class="absolute top-1/4 -right-40 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(46,111,242,0.15) 0%, transparent 70%); filter: blur(80px);" aria-hidden="true"></div>
+    <div class="max-w-[600px] mx-auto px-6 lg:px-10 relative z-10">
+      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.05] mb-12 text-center cta-heading" style="font-size:clamp(3rem, 7vw, 6rem); color:#0A2463;">Secure the model.</h2>
+      <form id="ctaForm" class="space-y-8" onsubmit="return false;">
+        <div class="form-field">
+          <input type="email" id="emailInput" placeholder=" " required autocomplete="email" aria-label="Your work email">
+          <label for="emailInput">Your work email</label>
+        </div>
+        <div class="form-field">
+          <select id="concernSelect" required aria-label="Primary concern">
+            <option value="" disabled selected>Primary Concern</option>
+            <option value="webapp">Web Application Security</option>
+            <option value="mobile">Mobile Application Security</option>
+            <option value="infra">Infrastructure & Network</option>
+            <option value="ai">AI & LLM Security</option>
+            <option value="cloud">Cloud Security</option>
+            <option value="code">Secure Code Review</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn hoverable" id="submitBtn">Book Discovery Call</button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="max-w-[1200px] mx-auto px-6 lg:px-10 mt-32 relative z-10" role="contentinfo">
+      <div class="h-px mb-10" style="background: rgba(10,36,99,0.08);"></div>
+      <div class="flex flex-col lg:flex-row justify-between gap-10 mb-10">
+        <div>
+          <div class="font-syne font-extrabold text-xl mb-3" style="color:#0A2463;">QUININE</div>
+          <div class="font-jakarta text-[0.85rem] space-y-1" style="color: #475569;">
+            <p>Level39, One Canada Square</p>
+            <p>Canary Wharf, London E14 5AB</p>
+            <p class="mt-3">A Division of Quinine Group</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-6">
+          <a href="https://www.linkedin.com/company/quinine-cybersecurity-ltd/" target="_blank" rel="noopener noreferrer" class="hoverable" aria-label="Quinine on LinkedIn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#0A2463;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="/privacy.html" class="font-jakarta text-sm hoverable" style="color:#475569;">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-3 mb-8">
+        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">OWASP</span>
+        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">ISO 42001</span>
+        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">MITRE ATLAS</span>
+        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">NIST AI RMF</span>
+        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">EU AI Act</span>
+      </div>
+      <div class="h-px mb-6" style="background: rgba(10,36,99,0.08);"></div>
+      <p class="font-jakarta text-[0.8rem] pb-8" style="color:#475569;">© 2026 Quinine Cybersecurity Ltd. All rights reserved.</p>
+    </footer>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Reduced motion check ──
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    document.getElementById('preloader').style.display = 'none';
+    document.querySelectorAll('.word').forEach(w => { w.style.transform = 'translateY(0)'; w.style.opacity = '1'; });
+    return;
+  }
+
+  // ── Register GSAP plugins ──
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── Lenis smooth scroll ──
+  const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  // Stop scroll during preloader
+  lenis.stop();
+
+  // ── Word split helper ──
+  function splitWords(el) {
+    const text = el.textContent;
+    const words = text.split(/\s+/);
+    el.innerHTML = words.map(w => `<span class="word-line"><span class="word">${w}</span></span>`).join(' ');
+    return el.querySelectorAll('.word');
+  }
+
+  // ── PRELOADER ──
+  const preloader = document.getElementById('preloader');
+  const preloaderText = document.getElementById('preloader-text');
+  const preloaderCounter = document.getElementById('preloader-counter');
+  const heroHeadline = document.getElementById('heroHeadline');
+
+  const heroWords = splitWords(heroHeadline);
+
+  const preloaderTl = gsap.timeline({
+    onComplete: () => {
+      lenis.start();
+      preloader.style.display = 'none';
+    }
+  });
+
+  // Count 0 → 100
+  preloaderTl.to({ val: 0 }, {
+    val: 100, duration: 2, ease: 'power4.inOut',
+    onUpdate: function() { preloaderCounter.textContent = Math.round(this.targets()[0].val) + '%'; }
+  });
+
+  // Fade out text + counter
+  preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.9, duration: 0.5, ease: 'power4.inOut' }, '-=0.3');
+
+  // Sweep up
+  preloaderTl.to(preloader, {
+    clipPath: 'inset(0 0 100% 0)', duration: 1.2, ease: 'power4.inOut'
+  }, '-=0.2');
+
+  // Hero words slide up
+  preloaderTl.to(heroWords, {
+    y: 0, duration: 1.2, ease: 'power4.out', stagger: 0.05
+  }, '-=0.8');
+
+  // Badge
+  preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.9');
+
+  // Subheading
+  preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+
+  // CTAs
+  preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+
+  // Trust
+  preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+
+  // ── CUSTOM CURSOR ──
+  const isTouchDevice = window.matchMedia('(hover: none)').matches;
+  if (!isTouchDevice) {
+    const cursorDot = document.getElementById('cursorDot');
+    const xTo = gsap.quickTo(cursorDot, 'left', { duration: 0.15, ease: 'power4.out' });
+    const yTo = gsap.quickTo(cursorDot, 'top', { duration: 0.15, ease: 'power4.out' });
+
+    window.addEventListener('mousemove', (e) => {
+      xTo(e.clientX); yTo(e.clientY);
+    });
+
+    document.querySelectorAll('.hoverable, a, button, .service-card, .framework-row').forEach(el => {
+      el.addEventListener('mouseenter', () => cursorDot.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursorDot.classList.remove('hovering'));
+    });
+
+    // ── MAGNETIC HOVER ──
+    document.querySelectorAll('[data-magnetic]').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(el, { x: x * 0.15, y: y * 0.15, duration: 0.3, ease: 'power4.out' });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'power4.out' });
+      });
+    });
+  }
+
+  // ── ORB CURSOR TRACKING + ANIMATION ──
+  const orbCore = document.getElementById('orbCore');
+  const orbHalo = document.getElementById('orbHalo');
+  const orbAmbient = document.getElementById('orbAmbient');
+
+  // Infinite rotation
+  gsap.to(orbCore, { rotation: 360, duration: 60, ease: 'linear', repeat: -1 });
+  gsap.to(orbHalo, { rotation: -360, duration: 80, ease: 'linear', repeat: -1 });
+
+  // Scale pulse
+  gsap.to(orbCore, { scale: 1.15, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to(orbHalo, { scale: 1.1, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+
+  if (!isTouchDevice) {
+    const orbCoreX = gsap.quickTo(orbCore, 'x', { duration: 1.2, ease: 'power3.out' });
+    const orbCoreY = gsap.quickTo(orbCore, 'y', { duration: 1.2, ease: 'power3.out' });
+    const orbHaloX = gsap.quickTo(orbHalo, 'x', { duration: 1.5, ease: 'power3.out' });
+    const orbHaloY = gsap.quickTo(orbHalo, 'y', { duration: 1.5, ease: 'power3.out' });
+    const orbAmbX = gsap.quickTo(orbAmbient, 'x', { duration: 2.0, ease: 'power3.out' });
+    const orbAmbY = gsap.quickTo(orbAmbient, 'y', { duration: 2.0, ease: 'power3.out' });
+
+    document.getElementById('hero').addEventListener('mousemove', (e) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const mouseX = e.clientX - cx;
+      const mouseY = e.clientY - cy;
+      
+      orbCoreX(mouseX * 0.6); orbCoreY(mouseY * 0.6);
+      orbHaloX(mouseX * 0.4); orbHaloY(mouseY * 0.4);
+      orbAmbX(mouseX * 0.2); orbAmbY(mouseY * 0.2);
+    });
+  }
+
+  // Hero scroll parallax
+  gsap.to('.orb-container', {
+    scale: 1.4, opacity: 0, ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
+  });
+  gsap.to('#hero .relative.z-10', {
+    y: '30%', ease: 'none',
+    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
+  });
+
+  // ── NAV SCROLL ──
+  ScrollTrigger.create({
+    start: 60,
+    onEnter: () => document.getElementById('navbar').classList.add('scrolled'),
+    onLeaveBack: () => document.getElementById('navbar').classList.remove('scrolled')
+  });
+
+  // ── MOBILE MENU ──
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  const mobileItems = document.querySelectorAll('.mobile-menu-item');
+  let menuOpen = false;
+
+  hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    hamburger.classList.toggle('open');
+    mobileOverlay.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', menuOpen);
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+      gsap.fromTo(mobileItems, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.08, delay: 0.3 });
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    link.addEventListener('click', () => {
+      if (menuOpen) {
+        menuOpen = false;
+        hamburger.classList.remove('open');
+        mobileOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // ── MARQUEE ──
+  const marqueeInner = document.querySelector('.marquee-inner');
+  gsap.to(marqueeInner, { xPercent: -50, repeat: -1, duration: 25, ease: 'linear' });
+
+  // ── STAT COUNTER (marquee) ──
+  ScrollTrigger.create({
+    trigger: '#statCounter',
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.to({ val: 0 }, {
+        val: 100, duration: 2, ease: 'power4.out',
+        onUpdate: function() { document.getElementById('statCounter').textContent = Math.round(this.targets()[0].val); }
+      });
+    }
+  });
+
+  // ── PROBLEM SECTION ──
+  const problemHeading = document.querySelector('.problem-heading');
+  const problemWords = splitWords(problemHeading);
+  // Re-apply the electric class to "outpaced"
+  problemHeading.querySelectorAll('.word').forEach(w => {
+    if (w.textContent === 'outpaced') w.classList.add('text-electric');
+  });
+
+  gsap.to(problemWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.problem-heading', start: 'top 80%' }
+  });
+  gsap.to('.problem-body', {
+    opacity: 1, y: 0, duration: 0.8, ease: 'power4.out',
+    scrollTrigger: { trigger: '.problem-body', start: 'top 85%' }
+  });
+  gsap.to('.problem-line', {
+    scaleX: 1, duration: 1.2, ease: 'power4.out',
+    scrollTrigger: { trigger: '.problem-line', start: 'top 90%', scrub: 1 }
+  });
+
+  // ── SERVICES HEADING ──
+  const servicesHeading = document.querySelector('.services-heading');
+  const serviceWords = splitWords(servicesHeading);
+  gsap.to(serviceWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.services-heading', start: 'top 80%' }
+  });
+
+  // ── SERVICES CARDS BATCH ──
+  ScrollTrigger.batch('[data-service]', {
+    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power4.out', stagger: 0.08 }),
+    start: 'top 85%'
+  });
+
+  // ── SPOTLIGHT EFFECT ──
+  if (!isTouchDevice) {
+    const servicesGrid = document.getElementById('servicesGrid');
+    servicesGrid.addEventListener('mousemove', (e) => {
+      const cards = servicesGrid.querySelectorAll('.service-card');
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+        card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+      });
+    });
+  }
+
+  // ── APPROACH HEADING ──
+  const approachHeading = document.querySelector('.approach-heading');
+  const approachWords = splitWords(approachHeading);
+  gsap.to(approachWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.approach-heading', start: 'top 80%' }
+  });
+
+  // ── TIMELINE LINE DRAW ──
+  const timelineLine = document.getElementById('timelineLine');
+  gsap.to(timelineLine, {
+    strokeDashoffset: 0, ease: 'none',
+    scrollTrigger: { trigger: '#approach .relative', start: 'top 70%', end: 'bottom 70%', scrub: 1 }
+  });
+
+  // Step circle activation
+  document.querySelectorAll('.step-item').forEach((item, i) => {
+    const circle = item.querySelector('.step-circle');
+    ScrollTrigger.create({
+      trigger: item,
+      start: 'top 60%',
+      onEnter: () => circle.classList.add('active'),
+      onLeaveBack: () => circle.classList.remove('active')
+    });
+    gsap.fromTo(item, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power4.out',
+      scrollTrigger: { trigger: item, start: 'top 80%' }
+    });
+  });
+
+  // ── FRAMEWORKS HEADING ──
+  const frameworksHeading = document.querySelector('.frameworks-heading');
+  const frameworkWords = splitWords(frameworksHeading);
+  gsap.to(frameworkWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.frameworks-heading', start: 'top 80%' }
+  });
+
+  // Frameworks accordion
+  document.querySelectorAll('[data-framework]').forEach(row => {
+    row.addEventListener('click', () => {
+      const wasOpen = row.classList.contains('open');
+      document.querySelectorAll('[data-framework]').forEach(r => r.classList.remove('open'));
+      if (!wasOpen) row.classList.add('open');
+    });
+  });
+
+  // Frameworks stagger in
+  ScrollTrigger.batch('[data-framework]', {
+    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power4.out', stagger: 0.06 }),
+    start: 'top 88%'
+  });
+
+  // ── TRUST HEADING ──
+  const trustHeading = document.querySelector('.trust-heading');
+  const trustWords = splitWords(trustHeading);
+  gsap.to(trustWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.trust-heading', start: 'top 80%' }
+  });
+
+  // Trust stats
+  ScrollTrigger.batch('.trust-stat', {
+    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.12 }),
+    start: 'top 85%'
+  });
+
+  // Trust % counter
+  ScrollTrigger.create({
+    trigger: '#trustPercent',
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.to({ val: 0 }, {
+        val: 100, duration: 2, ease: 'power4.out',
+        onUpdate: function() { document.getElementById('trustPercent').textContent = Math.round(this.targets()[0].val) + '%'; }
+      });
+    }
+  });
+
+  // ── CTA COLOR TRANSITION ──
+  const ctaSection = document.getElementById('cta-section');
+  const ctaHeading = document.querySelector('.cta-heading');
+  const ctaSectionWords = splitWords(ctaHeading);
+
+  gsap.to(ctaSectionWords, {
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.05,
+    scrollTrigger: { trigger: '.cta-heading', start: 'top 80%' }
+  });
+
+  // Background color transition
+  ScrollTrigger.create({
+    trigger: ctaSection,
+    start: 'top 70%',
+    end: 'top 20%',
+    scrub: 1,
+    onUpdate: (self) => {
+      const p = self.progress;
+      // Interpolate bg from white to deepnavy
+      const r = Math.round(255 - p * (255 - 6));
+      const g = Math.round(255 - p * (255 - 20));
+      const b = Math.round(255 - p * (255 - 57));
+      ctaSection.style.background = `rgb(${r},${g},${b})`;
+
+      // Text colors
+      const textR = Math.round(10 + p * (255 - 10));
+      const textG = Math.round(36 + p * (255 - 36));
+      const textB = Math.round(99 + p * (255 - 99));
+      ctaHeading.style.color = `rgb(${textR},${textG},${textB})`;
+
+      // Footer text
+      const footer = ctaSection.querySelector('footer');
+      if (footer) {
+        footer.querySelectorAll('.font-syne').forEach(el => el.style.color = `rgb(${textR},${textG},${textB})`);
+        footer.querySelectorAll('.font-jakarta, p').forEach(el => el.style.color = `rgba(${textR},${textG},${textB},0.6)`);
+        footer.querySelectorAll('.h-px, div[class*="h-px"]').forEach(el => el.style.background = `rgba(${textR},${textG},${textB},0.08)`);
+        footer.querySelectorAll('span.font-mono').forEach(el => {
+          el.style.color = `rgba(${textR},${textG},${textB},0.6)`;
+          el.style.borderColor = `rgba(${textR},${textG},${textB},0.15)`;
+        });
+        footer.querySelectorAll('svg').forEach(el => el.style.color = `rgb(${textR},${textG},${textB})`);
+        footer.querySelectorAll('a.font-jakarta').forEach(el => el.style.color = `rgba(${textR},${textG},${textB},0.6)`);
+      }
+    }
+  });
+
+  // ── FORM ──
+  const ctaForm = document.getElementById('ctaForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const emailInput = document.getElementById('emailInput');
+  const concernSelect = document.getElementById('concernSelect');
+
+  ctaForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Submitting...';
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput.value, concern: concernSelect.value })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      submitBtn.textContent = 'Submitted ✓';
+      submitBtn.style.background = '#22c55e';
+      submitBtn.style.color = '#fff';
+      ctaForm.reset();
+      
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.style.background = '';
+        submitBtn.style.color = '';
+        submitBtn.disabled = false;
+      }, 4000);
+
+    } catch (err) {
+      submitBtn.textContent = err.message || 'Error occurred';
+      submitBtn.style.background = '#ef4444';
+      submitBtn.style.color = '#fff';
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.style.background = '';
+        submitBtn.style.color = '';
+        submitBtn.disabled = false;
+      }, 4000);
+    }
+  });
+
+  // Make submit work on button click
+  submitBtn.addEventListener('click', (e) => {
+    if (!ctaForm.checkValidity()) {
+      ctaForm.reportValidity();
+    }
+  });
+
+  // ── SMOOTH SCROLL ANCHORS ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
