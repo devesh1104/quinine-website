@@ -803,25 +803,39 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
   const heroHeadline = document.getElementById('heroHeadline');
   const heroWords = splitWords(heroHeadline);
 
-  const preloaderTl = gsap.timeline({
-    onComplete: () => {
-      lenis.start();
-      preloader.style.display = 'none';
-    }
-  });
+  const hasSeenPreloader = sessionStorage.getItem('preloaderSeen');
 
-  preloaderTl.to({ val: 0 }, {
-    val: 100, duration: 1.8, ease: 'power4.inOut',
-    onUpdate: function() { preloaderCounter.textContent = Math.round(this.targets()[0].val) + '%'; }
-  });
+  if (hasSeenPreloader) {
+    // Skip preloader — show hero content immediately
+    preloader.style.display = 'none';
+    lenis.start();
+    gsap.set(heroWords, { y: 0 });
+    gsap.set('#heroBadge', { opacity: 1, y: 0 });
+    gsap.set('#heroSub', { opacity: 1, y: 0 });
+    gsap.set('#heroCtas', { opacity: 1, y: 0 });
+    gsap.set('#heroTrust', { opacity: 1, y: 0 });
+  } else {
+    const preloaderTl = gsap.timeline({
+      onComplete: () => {
+        lenis.start();
+        preloader.style.display = 'none';
+        sessionStorage.setItem('preloaderSeen', '1');
+      }
+    });
 
-  preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power3.inOut' }, '-=0.2');
-  preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power4.inOut' }, '-=0.1');
-  preloaderTl.to(heroWords, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.04 }, '-=0.6');
-  preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.7');
-  preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-  preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-  preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+    preloaderTl.to({ val: 0 }, {
+      val: 100, duration: 1.8, ease: 'power4.inOut',
+      onUpdate: function() { preloaderCounter.textContent = Math.round(this.targets()[0].val) + '%'; }
+    });
+
+    preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power3.inOut' }, '-=0.2');
+    preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power4.inOut' }, '-=0.1');
+    preloaderTl.to(heroWords, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.04 }, '-=0.6');
+    preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.7');
+    preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+    preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+    preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+  }
 
   // CUSTOM CURSOR
   const isTouchDevice = window.matchMedia('(hover: none)').matches;
@@ -1126,8 +1140,13 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
         });
         const data = await res.json();
         if (res.ok) {
-          submitBtn.textContent = 'Submitted ✓';
-          submitBtn.style.background = '#16a34a';
+          if (data.duplicate) {
+            submitBtn.textContent = 'Already submitted — we\'ll be in touch';
+            submitBtn.style.background = '#2E6FF2';
+          } else {
+            submitBtn.textContent = 'Submitted ✓';
+            submitBtn.style.background = '#16a34a';
+          }
           submitBtn.style.color = '#fff';
           ctaForm.reset();
           setTimeout(() => {
