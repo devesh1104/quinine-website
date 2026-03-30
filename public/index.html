@@ -45,8 +45,17 @@ tailwind.config = {
   /* ── Base ── */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: auto; }
-  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #0A2463; overflow-x: hidden; }
-  ::selection { background: rgba(46,111,242,0.15); color: #0A2463; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fff; color: #0A2463; overflow-x: hidden; scrollbar-width: none; -ms-overflow-style: none; }
+  body::-webkit-scrollbar { display: none; }
+  ::selection { background: rgba(46,111,242,0.25); color: #fff; }
+
+  /* ── GenZ accents ── */
+  .glow-text { background: linear-gradient(135deg, #0A2463 0%, #2E6FF2 50%, #4A8BFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .accent-line { width: 48px; height: 3px; background: linear-gradient(90deg, #2E6FF2, #4A8BFF); border-radius: 99px; }
+  .glass-card { background: rgba(255,255,255,0.7); backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(10,36,99,0.06); box-shadow: 0 2px 16px rgba(10,36,99,0.05), 0 8px 32px rgba(10,36,99,0.03); }
+  .stat-glow { position: relative; }
+  .stat-glow::after { content: ''; position: absolute; bottom: -8px; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #2E6FF2, transparent); border-radius: 99px; }
+  .tag-pill { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 9999px; padding: 6px 14px; }
 
   /* ── Noise Grain Overlay ── */
   .noise-overlay {
@@ -54,29 +63,37 @@ tailwind.config = {
     pointer-events: none; z-index: 9998; opacity: 0.025;
   }
 
-  /* ── Preloader ── */
+  /* ── Preloader (Redesigned & Smaller) ── */
   #preloader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #061439; z-index: 10000;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
-  #preloader-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 8rem; color: #fff; letter-spacing: -0.035em; }
-  #preloader-counter { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: #2E6FF2; margin-top: 1.5rem; }
+  #preloader-text { 
+    font-family: 'Syne', sans-serif; font-weight: 700; 
+    font-size: clamp(1.2rem, 3vw, 2.2rem); 
+    color: #fff; letter-spacing: 0.1em; 
+    text-transform: uppercase;
+  }
+  #preloader-counter { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #2E6FF2; margin-top: 1rem; }
 
-  /* ── Custom Cursor ── */
+  /* ── Custom Cursor (Fixed Overlap) ── */
   @media (hover: hover) {
+    body, a, button, input, select, textarea, .hoverable { 
+      cursor: none !important; /* Hide default cursor entirely */
+    }
     .cursor-dot {
-      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      position: fixed; top: 0; left: 0; width: 6px; height: 6px;
       background: #0A2463; border-radius: 50%;
       pointer-events: none; z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width 0.3s cubic-bezier(0.16,1,0.3,1), height 0.3s cubic-bezier(0.16,1,0.3,1), background 0.3s cubic-bezier(0.16,1,0.3,1), border 0.3s cubic-bezier(0.16,1,0.3,1);
+      transition: width 0.25s cubic-bezier(0.16,1,0.3,1), height 0.25s cubic-bezier(0.16,1,0.3,1), background 0.25s, border 0.25s;
     }
     .cursor-dot.hovering {
-      width: 56px; height: 56px;
-      background: transparent;
-      border: 1px solid rgba(46,111,242,0.5);
-      backdrop-filter: invert(5%);
+      width: 44px; height: 44px;
+      background: rgba(46,111,242,0.05);
+      border: 1px solid rgba(46,111,242,0.4);
+      backdrop-filter: blur(2px);
     }
   }
   @media (hover: none) { .cursor-dot { display: none !important; } }
@@ -88,10 +105,11 @@ tailwind.config = {
     transition: padding 0.4s cubic-bezier(0.16,1,0.3,1);
   }
   #navbar.scrolled {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(16px) saturate(180%);
-    border-bottom: 1px solid rgba(226,232,240,0.5);
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(24px) saturate(200%);
+    border-bottom: 1px solid rgba(10,36,99,0.04);
     padding: 16px 48px;
+    box-shadow: 0 4px 30px rgba(10,36,99,0.03);
   }
   .nav-link { position: relative; display: inline-block; }
   .nav-link::after {
@@ -106,8 +124,8 @@ tailwind.config = {
     position: relative; overflow: hidden;
     border: 1.5px solid #0A2463; border-radius: 9999px;
     padding: 10px 28px; font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 600; font-size: 0.88rem; color: #0A2463;
-    background: transparent; cursor: pointer;
+    font-weight: 600; font-size: 0.85rem; color: #0A2463;
+    background: transparent;
     transition: color 0.4s cubic-bezier(0.16,1,0.3,1);
   }
   .cta-pill::before {
@@ -121,18 +139,28 @@ tailwind.config = {
   .cta-pill:hover { color: #fff; }
 
   .cta-primary {
-    background: #0A2463; color: #fff; border-color: #0A2463;
+    background: linear-gradient(135deg, #0A2463 0%, #1a3a7a 100%); color: #fff; border-color: #0A2463;
+    box-shadow: 0 4px 20px rgba(10,36,99,0.15);
   }
-  .cta-primary::before { background: #2E6FF2; }
+  .cta-primary::before { background: linear-gradient(135deg, #2E6FF2, #4A8BFF); }
+  .cta-primary:hover { box-shadow: 0 8px 28px rgba(46,111,242,0.25); }
 
   /* ── Hero ── */
   #hero { position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  
+  /* Technical Background Grid */
+  .hero-grid {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(10,36,99,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10,36,99,0.03) 1px, transparent 1px);
+    background-size: 40px 40px; z-index: 0; pointer-events: none;
+  }
+
   .hero-badge {
     display: inline-flex; align-items: center; gap: 10px;
     border: 1px solid rgba(10,36,99,0.12); border-radius: 9999px;
     padding: 8px 20px; font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em;
-    color: #475569;
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: #475569; background: rgba(255,255,255,0.5); backdrop-filter: blur(4px);
   }
   .badge-dot {
     width: 6px; height: 6px; background: #0A2463; border-radius: 50%;
@@ -146,63 +174,54 @@ tailwind.config = {
   .orb-layer { position: absolute; border-radius: 50%; will-change: transform; }
   .orb-core {
     width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(46, 111, 242, 0.45) 0%, rgba(10, 36, 99, 0.15) 50%, transparent 70%);
+    background: radial-gradient(circle, rgba(46, 111, 242, 0.35) 0%, rgba(10, 36, 99, 0.1) 50%, transparent 70%);
     filter: blur(60px); mix-blend-mode: multiply;
   }
   .orb-halo {
     width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(74,139,255,0.25) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(74,139,255,0.2) 0%, transparent 65%);
     filter: blur(100px);
   }
   .orb-ambient {
     width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(46,111,242,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(46,111,242,0.05) 0%, transparent 70%);
     filter: blur(120px);
   }
 
   /* ── Marquee ── */
-  .marquee-track {
-    display: flex; white-space: nowrap; will-change: transform;
-  }
+  .marquee-track { display: flex; white-space: nowrap; will-change: transform; }
   .marquee-item {
     display: inline-flex; align-items: center; gap: 24px;
     padding: 0 24px; font-family: 'Syne', sans-serif; font-weight: 700;
-    font-size: 1.5rem; color: #fff; flex-shrink: 0;
+    font-size: 1.3rem; color: #fff; flex-shrink: 0;
   }
-  .marquee-dot { width: 8px; height: 8px; background: #2E6FF2; border-radius: 50%; flex-shrink: 0; }
+  .marquee-dot { width: 6px; height: 6px; background: #2E6FF2; border-radius: 50%; flex-shrink: 0; }
 
   /* ── Services spotlight cards ── */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr) !important; } }
   @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr !important; } }
+  
   .service-card {
     position: relative; overflow: hidden;
-    background: #F7F8FA; border-radius: 16px;
-    border: 1px solid rgba(10,36,99,0.08);
-    padding: 40px;
+    background: rgba(247,248,250,0.8); backdrop-filter: blur(12px);
+    border-radius: 20px; border: 1px solid rgba(10,36,99,0.06);
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(10,36,99,0.04), 0 8px 32px rgba(10,36,99,0.03);
     transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s cubic-bezier(0.16,1,0.3,1);
   }
-  .service-card.span-2 { grid-column: span 2; }
-  @media (max-width: 768px) { .service-card.span-2 { grid-column: span 1; } }
   .service-card::before {
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.06), transparent 40%);
+    background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.04), transparent 40%);
     opacity: 0; transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
     pointer-events: none; z-index: 0;
   }
   .service-card::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    border-radius: 16px;
-    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.12), transparent 40%);
-    opacity: 0; transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1);
-    pointer-events: none; z-index: 0;
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 16px;
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(46,111,242,0.1), transparent 40%);
+    opacity: 0; transition: opacity 0.4s cubic-bezier(0.16,1,0.3,1); pointer-events: none; z-index: 0;
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude; -webkit-mask-composite: xor;
-    padding: 1px;
+    mask-composite: exclude; -webkit-mask-composite: xor; padding: 1px;
   }
   .services-grid:hover .service-card::before,
   .services-grid:hover .service-card::after { opacity: 1; }
@@ -210,8 +229,8 @@ tailwind.config = {
 
   @media (hover: hover) {
     .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 24px 48px rgba(10,36,99,0.08);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(10,36,99,0.12), 0 4px 16px rgba(10,36,99,0.06);
       border-color: rgba(46,111,242,0.2);
     }
   }
@@ -219,31 +238,29 @@ tailwind.config = {
   /* ── Timeline ── */
   .timeline-line { stroke-dasharray: 1; stroke-dashoffset: 1; }
   .step-circle {
-    width: 56px; height: 56px; border-radius: 50%;
+    width: 48px; height: 48px; border-radius: 50%;
     border: 2px solid #0A2463; display: flex; align-items: center; justify-content: center;
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem;
     color: #0A2463; background: #fff;
-    transition: background 0.5s cubic-bezier(0.16,1,0.3,1), color 0.5s cubic-bezier(0.16,1,0.3,1);
+    transition: background 0.5s cubic-bezier(0.16,1,0.3,1), color 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1);
     flex-shrink: 0;
   }
-  .step-circle.active { background: #0A2463; color: #fff; }
+  .step-circle.active { background: linear-gradient(135deg, #0A2463, #2E6FF2); color: #fff; box-shadow: 0 4px 16px rgba(46,111,242,0.25); }
 
   /* ── Frameworks accordion ── */
   .framework-row {
-    border-bottom: 1px solid rgba(10,36,99,0.1);
-    padding: 24px 0; cursor: pointer;
-    transition: background 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1);
+    border-bottom: 1px solid rgba(10,36,99,0.08);
+    padding: 20px 16px; border-radius: 12px; margin: 0 -16px;
+    transition: background 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .framework-row:hover { background: #FAFBFE; }
-  .framework-row .arrow {
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
+  .framework-row:hover { background: rgba(46,111,242,0.03); transform: translateX(4px); }
+  .framework-row .arrow { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
   .framework-row.open .arrow { transform: rotate(90deg); }
   .framework-desc {
     max-height: 0; overflow: hidden; opacity: 0;
     transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.4s cubic-bezier(0.16,1,0.3,1);
   }
-  .framework-row.open .framework-desc { max-height: 140px; opacity: 1; padding-top: 16px; }
+  .framework-row.open .framework-desc { max-height: 140px; opacity: 1; padding-top: 12px; }
   .frameworks-list:hover .framework-row:not(:hover) { opacity: 0.4; }
 
   /* ── CTA section color transition ── */
@@ -252,37 +269,31 @@ tailwind.config = {
   /* ── Form ── */
   .form-field { position: relative; }
   .form-field input, .form-field select {
-    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.3);
-    color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem;
+    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
     padding: 16px 0 12px; outline: none;
     transition: border-color 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   .form-field input:focus, .form-field select:focus {
-    border-color: #2E6FF2;
-    box-shadow: 0 2px 0 0 #2E6FF2;
+    border-color: #2E6FF2; box-shadow: 0 1px 0 0 #2E6FF2;
   }
   .form-field label {
     position: absolute; left: 0; top: 16px;
-    color: rgba(255,255,255,0.5); font-size: 1rem;
-    pointer-events: none;
+    color: rgba(255,255,255,0.5); font-size: 0.95rem; pointer-events: none;
     transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   .form-field input:focus + label,
-  .form-field input:not(:placeholder-shown) + label {
-    top: -8px; font-size: 0.7rem; color: #2E6FF2;
-  }
-  .form-field select { appearance: none; cursor: pointer; }
+  .form-field input:not(:placeholder-shown) + label { top: -8px; font-size: 0.7rem; color: #2E6FF2; }
+  .form-field select { appearance: none; }
   .form-field select option { background: #061439; color: #fff; }
 
   .submit-btn {
-    width: 100%; padding: 18px; border-radius: 9999px;
+    width: 100%; padding: 16px; border-radius: 9999px;
     background: #fff; color: #0A2463; border: none;
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem;
-    cursor: pointer;
-    transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
+    transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .submit-btn:hover { box-shadow: 0 0 30px rgba(255,255,255,0.15); }
-  .submit-btn.submitted { background: #22c55e; color: #fff; }
+  .submit-btn:hover { box-shadow: 0 0 30px rgba(255,255,255,0.15); transform: translateY(-2px); }
 
   /* ── Mobile menu ── */
   #mobile-overlay {
@@ -293,14 +304,11 @@ tailwind.config = {
     display: flex; align-items: center; justify-content: center;
     pointer-events: none;
   }
-  #mobile-overlay.open {
-    clip-path: circle(150% at calc(100% - 48px) 32px);
-    pointer-events: all;
-  }
+  #mobile-overlay.open { clip-path: circle(150% at calc(100% - 48px) 32px); pointer-events: all; }
   .mobile-menu-item {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(2rem, 7vw, 3.5rem); color: #fff;
-    display: block; padding: 8px 0; opacity: 0; transform: translateY(40px);
+    font-family: 'Syne', sans-serif; font-weight: 700;
+    font-size: clamp(1.8rem, 6vw, 2.5rem); color: #fff;
+    display: block; padding: 12px 0; opacity: 0; transform: translateY(20px);
   }
 
   /* ── Scroll indicator ── */
@@ -335,18 +343,13 @@ tailwind.config = {
     .orb-core { width: 300px; height: 300px; }
     .orb-halo { width: 400px; height: 400px; }
     .orb-ambient { width: 500px; height: 500px; }
-    #preloader-text { font-size: 3.5rem; }
   }
 
   /* ── Focus visible ── */
-  :focus-visible {
-    outline: 2px solid #2E6FF2;
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
+  :focus-visible { outline: 2px solid #2E6FF2; outline-offset: 3px; border-radius: 4px; }
 
   /* Hamburger */
-  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 9001; }
+  .hamburger { display: none; flex-direction: column; gap: 6px; z-index: 9001; }
   .hamburger span { width: 24px; height: 1.5px; background: #0A2463; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); display: block; }
   .hamburger.open span:first-child { transform: rotate(45deg) translate(3px, 3px); }
   .hamburger.open span:last-child { transform: rotate(-45deg) translate(3px, -3px); }
@@ -356,49 +359,44 @@ tailwind.config = {
 </head>
 <body>
 
-<!-- Noise Grain SVG Overlay -->
 <svg class="noise-overlay" aria-hidden="true">
   <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter>
   <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
 </svg>
 
-<!-- Custom Cursor -->
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
-<!-- ════ PRELOADER ════ -->
 <div id="preloader" aria-hidden="true">
-  <div id="preloader-text">QUININE</div>
+  <div id="preloader-text">Quinine Cyber</div>
   <div id="preloader-counter">0%</div>
 </div>
 
-<!-- ════ MOBILE OVERLAY ════ -->
 <div id="mobile-overlay" role="dialog" aria-label="Mobile navigation">
   <nav class="flex flex-col items-center gap-2">
-    <a href="#services" class="mobile-menu-item" data-nav>Services</a>
-    <a href="#approach" class="mobile-menu-item" data-nav>Approach</a>
-    <a href="#frameworks" class="mobile-menu-item" data-nav>Frameworks</a>
-    <a href="#contact" class="mobile-menu-item" data-nav>Contact</a>
+    <a href="#services" class="mobile-menu-item hoverable" data-nav>Services</a>
+    <a href="#approach" class="mobile-menu-item hoverable" data-nav>Approach</a>
+    <a href="#frameworks" class="mobile-menu-item hoverable" data-nav>Frameworks</a>
+    <a href="#contact" class="mobile-menu-item hoverable" data-nav>Contact</a>
   </nav>
 </div>
 
-<!-- ════ NAVIGATION ════ -->
 <header id="navbar" role="banner">
   <div class="flex items-center justify-between max-w-[1400px] mx-auto">
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-1.5 hoverable" aria-label="Quinine home">
-      <span class="font-syne font-extrabold text-navy text-xl tracking-tight">QUININE</span>
-      <span class="w-1.5 h-1.5 bg-electric rounded-full" style="animation: badgePulse 2s ease infinite;"></span>
+    <a href="/" class="flex items-center gap-2 hoverable" aria-label="Quinine home">
+      <img src="/logo.jpeg" alt="Quinine" class="h-7 w-7 rounded" style="object-fit: cover;">
+      <div class="flex items-center gap-1.5">
+        <span class="font-syne font-extrabold text-navy text-[0.95rem] tracking-tight leading-none">Quinine Cybersecurity<span class="font-bold text-[0.7rem] text-slate/50 ml-1">Ltd</span></span>
+        <span class="w-1 h-1 bg-electric rounded-full flex-shrink-0" style="animation: badgePulse 2.5s ease infinite;"></span>
+      </div>
     </a>
-    <!-- Desktop Nav -->
     <nav class="hidden lg:flex items-center gap-10" aria-label="Main navigation">
-      <a href="#services" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Services</a>
-      <a href="#approach" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Approach</a>
-      <a href="#frameworks" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Frameworks</a>
-      <a href="#contact" class="nav-link font-jakarta font-medium text-slate text-[0.92rem] hoverable" data-magnetic>Contact</a>
+      <a href="#services" class="nav-link font-jakarta font-medium text-slate text-[0.88rem] hoverable" data-magnetic>Services</a>
+      <a href="#approach" class="nav-link font-jakarta font-medium text-slate text-[0.88rem] hoverable" data-magnetic>Approach</a>
+      <a href="#frameworks" class="nav-link font-jakarta font-medium text-slate text-[0.88rem] hoverable" data-magnetic>Frameworks</a>
+      <a href="#contact" class="nav-link font-jakarta font-medium text-slate text-[0.88rem] hoverable" data-magnetic>Contact</a>
     </nav>
-    <!-- CTA + Hamburger -->
     <div class="flex items-center gap-5">
-      <a href="#contact" class="cta-pill hoverable hidden lg:inline-block" data-magnetic>Book a Discovery Call</a>
+      <a href="#contact" class="cta-pill hoverable hidden lg:inline-block" data-magnetic>Book Discovery</a>
       <button class="hamburger lg:hidden hoverable" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span>
       </button>
@@ -406,37 +404,39 @@ tailwind.config = {
   </div>
 </header>
 
-<!-- ════ MAIN ════ -->
 <main>
 
-<!-- ════ HERO ════ -->
 <section id="hero" aria-label="Hero">
+  <div class="hero-grid"></div>
+  
   <div class="orb-container" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);" aria-hidden="true">
     <div class="orb-layer orb-ambient" id="orbAmbient"></div>
     <div class="orb-layer orb-halo" id="orbHalo"></div>
     <div class="orb-layer orb-core" id="orbCore"></div>
   </div>
-  <div class="relative z-10 text-center px-5 max-w-[900px] mx-auto">
-    <div class="hero-badge mb-8 mx-auto w-fit" id="heroBadge" style="opacity:0;">
+  
+  <div class="relative z-10 text-center px-5 max-w-[840px] mx-auto">
+    <div class="hero-badge mb-6 mx-auto w-fit" id="heroBadge" style="opacity:0;">
       <span class="badge-dot"></span>
       <span>AI Security Specialists · Level39, Canary Wharf</span>
     </div>
-    <h1 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.05] mb-8" style="font-size:clamp(3rem, 5.5vw, 5rem);" id="heroHeadline">
-      Secure Intelligence for the AI Era
+    <h1 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.08] mb-6" style="font-size:clamp(2rem, 4vw, 3.5rem);" id="heroHeadline">
+      Secure Intelligence for the AI Era.
     </h1>
-    <p class="font-jakarta text-slate text-lg leading-relaxed max-w-[600px] mx-auto mb-10" id="heroSub" style="opacity:0;">
-      Enterprises are deploying LLMs and RAG pipelines at pace — but security hasn't kept up. Quinine Cybersecurity identifies vulnerabilities in your AI systems before attackers do, from prompt injection to knowledge base poisoning.
+    <p class="font-jakarta text-slate/80 text-[0.95rem] leading-relaxed max-w-[500px] mx-auto mb-10" id="heroSub" style="opacity:0;">
+      Artificial Intelligence is transforming how businesses operate.
+But without control, it introduces risks most organisations aren’t prepared for.
+Quinine Cybersecurity helps you secure, govern, and manage AI across your enterprise - from data to decisions.
     </p>
-    <div class="flex flex-wrap items-center justify-center gap-4 mb-12" id="heroCtas" style="opacity:0;">
-      <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-4 text-[0.95rem]" data-magnetic>Secure Your AI Systems</a>
-      <a href="#services" class="cta-pill hoverable px-8 py-4 text-[0.95rem]" data-magnetic>Explore Our Approach</a>
+    <div class="flex flex-wrap items-center justify-center gap-4 mb-14" id="heroCtas" style="opacity:0;">
+      <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-3.5 text-[0.88rem]" data-magnetic>Secure Your AI Systems</a>
+      <a href="#services" class="cta-pill hoverable px-8 py-3.5 text-[0.88rem]" data-magnetic>Explore Our Approach</a>
     </div>
-    <div class="flex flex-wrap items-center justify-center gap-3 text-xs" id="heroTrust" style="opacity:0;">
-      <span class="font-mono text-slate tracking-wider uppercase text-[0.7rem]">Aligned to:</span>
-      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">OWASP</span>
-      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">ISO 42001</span>
-      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">MITRE ATLAS</span>
-      <span class="font-mono text-[0.7rem] border border-slate/20 rounded-full px-3 py-1 text-slate">NIST AI RMF</span>
+    <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs" id="heroTrust" style="opacity:0;">
+      <span class="tag-pill border border-slate/15 text-slate/60 hoverable">OWASP</span>
+      <span class="tag-pill border border-slate/15 text-slate/60 hoverable">ISO 42001</span>
+      <span class="tag-pill border border-slate/15 text-slate/60 hoverable">MITRE ATLAS</span>
+      <span class="tag-pill border border-slate/15 text-slate/60 hoverable">NIST AI RMF</span>
     </div>
   </div>
   <div class="scroll-indicator" aria-hidden="true">
@@ -444,9 +444,8 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ════ CREDIBILITY MARQUEE ════ -->
 <section aria-label="Credibility" class="relative overflow-hidden" style="transform: rotate(-1deg) scale(1.05);">
-  <div class="bg-deepnavy py-5">
+  <div class="bg-deepnavy py-4">
     <div class="marquee-track" id="marqueeTrack">
       <div class="marquee-inner flex">
         <span class="marquee-item">OWASP LLM Top 10 <span class="marquee-dot"></span></span>
@@ -462,356 +461,307 @@ tailwind.config = {
       </div>
     </div>
   </div>
-  <div class="bg-deepnavy border-t border-white/10 py-4">
+  <div class="bg-deepnavy border-t border-white/10 py-3">
     <div class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-8 px-5">
-      <span class="font-jakarta text-white/70 text-sm">Level39, Canary Wharf</span>
+      <span class="font-jakarta text-white/70 text-[0.85rem]">Level39, Canary Wharf</span>
       <span class="w-1 h-1 bg-electric rounded-full"></span>
-      <span class="font-jakarta text-white/70 text-sm"><span id="statCounter" class="font-syne font-extrabold text-white">0</span>% of AI systems had critical vulnerabilities</span>
+      <span class="font-jakarta text-white/70 text-[0.85rem]"><span id="statCounter" class="font-syne font-extrabold text-white">0</span>% of AI systems had critical vulnerabilities</span>
       <span class="w-1 h-1 bg-electric rounded-full"></span>
-      <span class="font-jakarta text-white/70 text-sm">48hr response time</span>
+      <span class="font-jakarta text-white/70 text-[0.85rem]">48hr response time</span>
     </div>
   </div>
 </section>
 
-<!-- ════ PROBLEM ════ -->
-<section id="problem" class="bg-offwhite" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="The challenge">
-  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
-    <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
-      <div class="lg:w-[58%]">
-        <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-6 block">// The challenge</span>
-        <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] problem-heading" style="font-size:clamp(2.5rem, 4.5vw, 4rem);">
-          AI deployment has <span class="text-electric">outpaced</span> AI security by years.
+<section id="problem" class="bg-offwhite" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="The challenge">
+  <div class="max-w-[1100px] mx-auto px-6 lg:px-10">
+    <div class="flex flex-col lg:flex-row gap-10 lg:gap-16">
+      <div class="lg:w-[55%]">
+        <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-5 block">// The challenge</span>
+        <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] problem-heading" style="font-size:clamp(1.8rem, 3.5vw, 2.8rem);">
+          AI deployment has <span class="glow-text">outpaced</span> AI security by years.
         </h2>
       </div>
-      <div class="lg:w-[42%] lg:mt-20">
-        <p class="font-jakarta text-slate text-[1.1rem] leading-[1.8] problem-body" style="opacity:0;">
+      <div class="lg:w-[45%] lg:mt-12">
+        <p class="font-jakarta text-slate text-[0.95rem] leading-[1.7] problem-body" style="opacity:0;">
           Enterprises are racing to deploy LLMs — chatbots, knowledge systems, decision engines — but the security architecture is fundamentally immature. No visibility into prompt injection surfaces, training data poisoning, or cascading RAG failures. The gap between deployment velocity and security readiness is where attackers operate.
         </p>
       </div>
     </div>
-    <div class="mt-16 h-px bg-navy/10 problem-line" style="transform: scaleX(0); transform-origin: left;"></div>
+    <div class="mt-14 h-px bg-navy/10 problem-line" style="transform: scaleX(0); transform-origin: left;"></div>
   </div>
 </section>
 
-<!-- ════ SERVICES ════ -->
-<section id="services" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Services">
-  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
-    <div class="text-center mb-16">
-      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// What we deliver</span>
-      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] mb-5 services-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">AI Security, From Model to Mission.</h2>
-      <p class="font-jakarta text-slate text-lg max-w-[600px] mx-auto">Specialist security assessments for organisations deploying AI — from LLM penetration testing to RAG pipeline hardening.</p>
+<section id="services" class="bg-white" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="Services">
+  <div class="max-w-[1100px] mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-4 block">// What we deliver</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] mb-4 services-heading" style="font-size:clamp(1.8rem, 3.5vw, 2.8rem);">AI Security, From Model to Mission.</h2>
+      <p class="font-jakarta text-slate text-[0.95rem] max-w-[560px] mx-auto">Specialist security assessments for organisations deploying AI — from LLM penetration testing to RAG pipeline hardening.</p>
     </div>
 
-    <!-- ── Primary Services (Available Now) ── -->
     <div class="services-grid" id="servicesGrid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
-      <!-- Card 1 — LLM Security -->
-      <div class="service-card" data-service style="border-color: rgba(46,111,242,0.2);">
-        <div class="flex items-center gap-3 mb-5">
-          <span class="font-mono text-electric font-semibold text-sm">01</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-electric/10 text-electric rounded-full px-3 py-1">Available Now</span>
+      <div class="service-card hoverable" data-service style="border-color: rgba(46,111,242,0.12); background: linear-gradient(135deg, rgba(247,248,250,0.9) 0%, rgba(46,111,242,0.02) 100%);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-electric font-semibold text-xs">01</span>
+          <span class="tag-pill bg-electric/10 text-electric">Available Now</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">LLM Security Assessment</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed mb-5">Comprehensive penetration testing for large language model deployments — prompt injection testing, jailbreak testing, hallucination risk analysis, system prompt exposure detection, and output sanitisation validation.</p>
+        <h3 class="font-jakarta font-bold text-[1.15rem] text-navy mb-2">LLM Security Assessment</h3>
+        <p class="font-jakarta text-slate text-[0.9rem] leading-relaxed mb-4">Comprehensive penetration testing for large language model deployments — prompt injection testing, jailbreak testing, hallucination risk analysis, system prompt exposure detection, and output sanitisation validation.</p>
         <div class="flex flex-wrap gap-2">
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Prompt Injection</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Jailbreak Testing</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Hallucination Risk</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">System Prompt Exposure</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Output Sanitisation</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Prompt Injection</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Jailbreak</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Hallucinations</span>
         </div>
       </div>
-      <!-- Card 2 — RAG Security -->
-      <div class="service-card" data-service style="border-color: rgba(46,111,242,0.2);">
-        <div class="flex items-center gap-3 mb-5">
-          <span class="font-mono text-electric font-semibold text-sm">02</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-electric/10 text-electric rounded-full px-3 py-1">Available Now</span>
+      <div class="service-card hoverable" data-service style="border-color: rgba(46,111,242,0.12); background: linear-gradient(135deg, rgba(247,248,250,0.9) 0%, rgba(46,111,242,0.02) 100%);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="font-mono text-electric font-semibold text-xs">02</span>
+          <span class="tag-pill bg-electric/10 text-electric">Available Now</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.35rem] text-navy mb-3">RAG Security Testing & Knowledge Base Hardening</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed mb-5">End-to-end security testing for retrieval-augmented generation pipelines — unauthorised document retrieval, embedding poisoning detection, vector index enumeration, metadata leakage, and RAG filter bypass detection.</p>
+        <h3 class="font-jakarta font-bold text-[1.15rem] text-navy mb-2">RAG Security & Hardening</h3>
+        <p class="font-jakarta text-slate text-[0.9rem] leading-relaxed mb-4">End-to-end security testing for retrieval-augmented generation pipelines — unauthorised document retrieval, embedding poisoning detection, vector index enumeration, metadata leakage, and RAG filter bypass detection.</p>
         <div class="flex flex-wrap gap-2">
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Document Retrieval</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Embedding Poisoning</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Vector Index Enumeration</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Metadata Leakage</span>
-          <span class="font-mono text-[0.65rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Filter Bypass</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Data Retrieval</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Poisoning</span>
+          <span class="font-mono text-[0.6rem] border border-navy/10 rounded-full px-2.5 py-0.5 text-slate/70">Filter Bypass</span>
         </div>
       </div>
     </div>
 
-    <!-- ── Upcoming Services ── -->
-    <div class="mt-20 mb-12 text-center">
-      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Expanding our capabilities</span>
-      <h3 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1]" style="font-size:clamp(1.8rem, 3vw, 2.4rem);">Upcoming Services</h3>
+    <div class="mt-16 mb-10 text-center">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-3 block">// Expanding capabilities</span>
+      <h3 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1]" style="font-size:clamp(1.5rem, 2.5vw, 2.2rem);">Upcoming Services</h3>
     </div>
     <div class="services-grid" id="upcomingGrid">
-      <!-- Upcoming 1 — Agentic AI -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">03</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">03</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Agentic AI Security Testing</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Security testing for autonomous AI agents — privilege escalation, agent-to-agent communication, memory injection, tool misuse, and cascading failure analysis across multi-agent workflows.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">Agentic AI Testing</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Security testing for autonomous AI agents — privilege escalation, multi-agent workflows.</p>
       </div>
-      <!-- Upcoming 2 — Continuous Red Teaming -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">04</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">04</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Continuous AI Red Teaming</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Ongoing adversarial testing embedded in your deployment pipeline — automated attack suites on model and prompt changes, continuous monitoring for prompt injection, data exfiltration, and privilege escalation.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">Continuous Red Teaming</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Ongoing adversarial testing embedded in your deployment pipeline for continuous monitoring.</p>
       </div>
-      <!-- Upcoming 3 — AI Supply Chain -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">05</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">05</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">AI Supply Chain Security</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Model provenance verification, AI bill of materials assessment, training data poisoning detection, open-source model risk evaluation, and supply chain dependency mapping for AI components.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">Supply Chain Security</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Model provenance verification, AI bill of materials, and open-source model risk evaluation.</p>
       </div>
-      <!-- Upcoming 4 — AI IAM -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">06</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">06</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">AI Identity & Access Management</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Agent identity architecture review, privilege escalation testing for non-human identities, authentication and authorisation assessment, delegation chain evaluation, and zero trust for AI workloads.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">AI Identity & Access</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Agent identity architecture review and zero trust assessment for AI workloads.</p>
       </div>
-      <!-- Upcoming 5 — Shadow AI Discovery -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">07</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">07</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">Shadow AI Discovery & Governance</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">Organisation-wide AI usage inventory, risk scoring of all discovered AI tools, data flow analysis, policy gap identification, and a prioritised remediation roadmap.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">Shadow AI Discovery</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Organisation-wide AI usage inventory, risk scoring, and policy gap identification.</p>
       </div>
-      <!-- Upcoming 6 — API & Endpoint -->
-      <div class="service-card" data-service style="opacity: 0;">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="font-mono text-slate/40 font-semibold text-sm">08</span>
-          <span class="font-mono text-[0.65rem] uppercase tracking-[0.1em] bg-navy/5 text-slate/50 rounded-full px-3 py-1">Coming Soon</span>
+      <div class="service-card hoverable" data-service style="opacity: 0;">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="font-mono text-slate/40 font-semibold text-xs">08</span>
+          <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
-        <h3 class="font-jakarta font-bold text-[1.3rem] text-navy mb-3">API & Endpoint Security Testing</h3>
-        <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed">API fuzzing, BOLA and BFLA checks, IDOR testing, rate limit bypass testing, and sensitive data exposure analysis for AI-connected endpoints.</p>
+        <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">API & Endpoint Security</h3>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">Fuzzing, BOLA checks, and IDOR testing for AI-connected corporate endpoints.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ HOW IT WORKS ════ -->
-<section id="approach" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="How it works">
-  <div class="max-w-[1000px] mx-auto px-6 lg:px-10">
-    <div class="text-center mb-20">
-      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// How it works</span>
-      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] approach-heading" style="font-size:clamp(2.5rem, 4.5vw, 3.5rem);">Three Steps to Secure.</h2>
+<section id="approach" class="bg-white" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="How it works">
+  <div class="max-w-[900px] mx-auto px-6 lg:px-10">
+    <div class="text-center mb-16">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-4 block">// How it works</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] approach-heading" style="font-size:clamp(1.8rem, 3.5vw, 2.8rem);">Three Steps to Secure.</h2>
     </div>
     <div class="relative">
-      <!-- SVG line -->
-      <svg class="absolute left-7 lg:left-7 top-0 h-full w-4" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true" style="overflow:visible;">
+      <svg class="absolute left-6 lg:left-6 top-0 h-full w-4" viewBox="0 0 4 100" preserveAspectRatio="none" aria-hidden="true" style="overflow:visible;">
         <line x1="2" y1="0" x2="2" y2="100" stroke="#2E6FF2" stroke-width="1.5" class="timeline-line" id="timelineLine" vector-effect="non-scaling-stroke" pathLength="1"/>
       </svg>
-      <!-- Steps -->
-      <div class="space-y-32 lg:space-y-48">
-        <div class="flex gap-8 lg:gap-14 items-start step-item">
+      <div class="space-y-24 lg:space-y-36">
+        <div class="flex gap-8 lg:gap-12 items-start step-item">
           <div class="step-circle" data-step="1">1</div>
           <div>
-            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Discovery</h3>
-            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">We learn your architecture, threat model, and compliance requirements.</p>
+            <h3 class="font-syne font-bold text-xl text-navy mb-2">Discovery</h3>
+            <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed max-w-md">We learn your architecture, threat model, and compliance requirements.</p>
           </div>
         </div>
-        <div class="flex gap-8 lg:gap-14 items-start step-item">
+        <div class="flex gap-8 lg:gap-12 items-start step-item">
           <div class="step-circle" data-step="2">2</div>
           <div>
-            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Assessment</h3>
-            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">Hands-on security testing against your live applications, infrastructure, and AI systems.</p>
+            <h3 class="font-syne font-bold text-xl text-navy mb-2">Assessment</h3>
+            <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed max-w-md">Hands-on security testing against your live applications, infrastructure, and AI systems.</p>
           </div>
         </div>
-        <div class="flex gap-8 lg:gap-14 items-start step-item">
+        <div class="flex gap-8 lg:gap-12 items-start step-item">
           <div class="step-circle" data-step="3">3</div>
           <div>
-            <h3 class="font-syne font-bold text-2xl text-navy mb-3">Report & Remediation</h3>
-            <p class="font-jakarta text-slate text-[1.05rem] leading-relaxed max-w-md">Executive-ready findings with prioritised, actionable remediation guidance.</p>
+            <h3 class="font-syne font-bold text-xl text-navy mb-2">Report & Remediation</h3>
+            <p class="font-jakarta text-slate text-[0.95rem] leading-relaxed max-w-md">Executive-ready findings with prioritised, actionable remediation guidance.</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="flex flex-wrap items-center justify-center gap-8 mt-24">
-      <span class="font-mono text-electric text-sm">48hr response</span>
+    <div class="flex flex-wrap items-center justify-center gap-6 mt-20">
+      <span class="font-mono text-electric text-[0.8rem]">48hr response</span>
       <span class="w-1 h-1 bg-navy/30 rounded-full"></span>
-      <span class="font-mono text-electric text-sm">2–3 week delivery</span>
+      <span class="font-mono text-electric text-[0.8rem]">2–3 week delivery</span>
       <span class="w-1 h-1 bg-navy/30 rounded-full"></span>
-      <span class="font-mono text-electric text-sm">Fixed-price scope</span>
+      <span class="font-mono text-electric text-[0.8rem]">Fixed-price scope</span>
     </div>
   </div>
 </section>
 
-<!-- ════ FRAMEWORKS ════ -->
-<section id="frameworks" class="bg-offwhite" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Compliance frameworks">
-  <div class="max-w-[1000px] mx-auto px-6 lg:px-10">
-    <div class="mb-16">
-      <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Frameworks</span>
-      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] frameworks-heading" style="font-size:clamp(2rem, 4vw, 3rem);">Aligned to the standards your board is asking about.</h2>
+<section id="frameworks" class="bg-offwhite" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="Compliance frameworks">
+  <div class="max-w-[900px] mx-auto px-6 lg:px-10">
+    <div class="mb-12">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-3 block">// Frameworks</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] frameworks-heading" style="font-size:clamp(1.5rem, 3vw, 2.2rem);">Aligned to the standards your board is asking about.</h2>
     </div>
     <div class="frameworks-list" id="frameworksList">
-      <div class="framework-row" data-framework>
+      <div class="framework-row hoverable" data-framework>
         <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OWASP LLM Top 10</span>
-          <span class="arrow text-navy text-xl">→</span>
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">OWASP LLM Top 10</span>
+          <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Testing against every category in the OWASP Top 10 for LLM Applications.</p>
-          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Testing against every category in the OWASP Top 10 for LLM Applications.</p>
         </div>
       </div>
-      <div class="framework-row" data-framework>
+      <div class="framework-row hoverable" data-framework>
         <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OWASP Web Top 10</span>
-          <span class="arrow text-navy text-xl">→</span>
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">OWASP Web Top 10</span>
+          <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Comprehensive testing against the OWASP Top 10 for web application vulnerabilities.</p>
-          <span class="font-mono text-electric text-xs">→ Web App Penetration Testing</span>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Comprehensive testing against the OWASP Top 10 for web application vulnerabilities.</p>
         </div>
       </div>
-      <div class="framework-row" data-framework>
+      <div class="framework-row hoverable" data-framework>
         <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">MITRE ATLAS</span>
-          <span class="arrow text-navy text-xl">→</span>
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">MITRE ATLAS</span>
+          <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Adversarial threat modelling using the MITRE ATLAS framework for ML attack taxonomy.</p>
-          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Adversarial threat modelling using the MITRE ATLAS framework for ML attack taxonomy.</p>
         </div>
       </div>
-      <div class="framework-row" data-framework>
+      <div class="framework-row hoverable" data-framework>
         <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">ISO 42001</span>
-          <span class="arrow text-navy text-xl">→</span>
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">ISO 42001</span>
+          <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">AI management system standard — governance, risk assessment, responsible deployment.</p>
-          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">AI management system standard — governance, risk assessment, responsible deployment.</p>
         </div>
       </div>
-      <div class="framework-row" data-framework>
+      <div class="framework-row hoverable" data-framework>
         <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">NIST AI RMF</span>
-          <span class="arrow text-navy text-xl">→</span>
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">NIST AI RMF</span>
+          <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Alignment to the NIST AI Risk Management Framework for AI-specific risks.</p>
-          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
-        </div>
-      </div>
-      <div class="framework-row" data-framework>
-        <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">EU AI Act</span>
-          <span class="arrow text-navy text-xl">→</span>
-        </div>
-        <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Compliance readiness — risk classification, transparency, conformity assessment.</p>
-          <span class="font-mono text-electric text-xs">→ AI & LLM Security Assessment</span>
-        </div>
-      </div>
-      <div class="framework-row" data-framework>
-        <div class="flex items-center justify-between">
-          <span class="font-jakarta font-semibold text-[1.2rem] text-navy">OSSTMM</span>
-          <span class="arrow text-navy text-xl">→</span>
-        </div>
-        <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.95rem] mb-2">Open Source Security Testing Methodology for network and infrastructure assessments.</p>
-          <span class="font-mono text-electric text-xs">→ Infrastructure & Network Pen Testing</span>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Alignment to the NIST AI Risk Management Framework for AI-specific risks.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ TRUST ════ -->
-<section id="trust" class="bg-white" style="padding: clamp(80px, 12vw, 160px) 0;" aria-label="Trust">
-  <div class="max-w-[1200px] mx-auto px-6 lg:px-10">
-    <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-      <div class="lg:w-[40%]">
-        <span class="font-mono text-electric text-[0.78rem] uppercase tracking-[0.12em] mb-4 block">// Why enterprises trust Quinine</span>
-        <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.1] trust-heading" style="font-size:clamp(2rem, 4vw, 3rem);">Built for enterprise rigour.</h2>
+<section id="trust" class="bg-offwhite" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="Trust">
+  <div class="max-w-[1100px] mx-auto px-6 lg:px-10">
+    <div class="text-center mb-14">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-3 block">// Why enterprises trust Quinine</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] trust-heading" style="font-size:clamp(1.8rem, 3vw, 2.5rem);">Built for enterprise rigour.</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
+        <div class="accent-line mb-4"></div>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">Level39</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Europe's largest fintech & cybersecurity accelerator</p>
       </div>
-      <div class="lg:w-[60%] grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
-          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2">Level39</div>
-          <p class="font-jakarta text-slate text-[0.9rem]">Europe's largest fintech & cybersecurity accelerator</p>
-        </div>
-        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
-          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2" id="trustPercent">0%</div>
-          <p class="font-jakarta text-slate text-[0.9rem]">of assessed AI systems contained critical vulnerabilities</p>
-        </div>
-        <div class="border-l-[3px] border-electric pl-6 trust-stat" style="opacity:0;">
-          <div class="font-syne font-extrabold text-navy text-[3rem] leading-none mb-2">48hr</div>
-          <p class="font-jakarta text-slate text-[0.9rem]">from first contact to discovery call</p>
-        </div>
+      <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
+        <div class="accent-line mb-4"></div>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);" id="trustPercent">0%</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">of assessed AI systems contained critical vulnerabilities</p>
+      </div>
+      <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
+        <div class="accent-line mb-4"></div>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">48hr</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">from first contact to discovery call</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════ CTA + FOOTER ════ -->
 <section id="cta-section" aria-label="Contact">
-  <div id="contact" class="relative overflow-hidden" style="padding: clamp(100px, 14vw, 200px) 0 60px;">
-    <!-- Faint orb -->
+  <div id="contact" class="relative overflow-hidden" style="padding: clamp(80px, 12vw, 160px) 0 50px;">
     <div class="absolute top-1/4 -right-40 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(46,111,242,0.15) 0%, transparent 70%); filter: blur(80px);" aria-hidden="true"></div>
-    <div class="max-w-[600px] mx-auto px-6 lg:px-10 relative z-10">
-      <h2 class="font-syne font-extrabold tracking-[-0.035em] leading-[1.05] mb-12 text-center cta-heading" style="font-size:clamp(3rem, 7vw, 6rem); color:#0A2463;">Secure the model.</h2>
-      <form id="ctaForm" class="space-y-8" onsubmit="return false;">
+    <div class="max-w-[560px] mx-auto px-6 lg:px-10 relative z-10">
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.08] mb-10 text-center cta-heading" style="font-size:clamp(2rem, 4vw, 3.5rem); color:#0A2463;">Secure the model.</h2>
+      <form id="ctaForm" class="space-y-6" onsubmit="return false;">
         <div class="form-field">
-          <input type="email" id="emailInput" placeholder=" " required autocomplete="email" aria-label="Your work email">
+          <input type="email" id="emailInput" class="hoverable" placeholder=" " required autocomplete="email" aria-label="Your work email">
           <label for="emailInput">Your work email</label>
         </div>
         <div class="form-field">
-          <select id="concernSelect" required aria-label="Primary concern">
+          <select id="concernSelect" class="hoverable" required aria-label="Primary concern">
             <option value="" disabled selected>Primary Concern</option>
             <option value="llm">LLM Security Assessment</option>
             <option value="rag">RAG Security & Knowledge Base Hardening</option>
             <option value="api">API & Endpoint Security</option>
-            <option value="agentic">Agentic AI Security</option>
-            <option value="governance">AI Governance & Compliance</option>
             <option value="other">Other / General Enquiry</option>
           </select>
         </div>
-        <button type="submit" class="submit-btn hoverable" id="submitBtn">Book Discovery Call</button>
+        <button type="submit" class="submit-btn hoverable mt-4" id="submitBtn">Book Discovery Call</button>
       </form>
     </div>
 
-    <!-- Footer -->
-    <footer class="max-w-[1200px] mx-auto px-6 lg:px-10 mt-32 relative z-10" role="contentinfo">
-      <div class="h-px mb-10" style="background: rgba(10,36,99,0.08);"></div>
-      <div class="flex flex-col lg:flex-row justify-between gap-10 mb-10">
+    <footer class="max-w-[1100px] mx-auto px-6 lg:px-10 mt-24 relative z-10" role="contentinfo">
+      <div class="h-px mb-8" style="background: rgba(10,36,99,0.08);"></div>
+      <div class="flex flex-col lg:flex-row justify-between gap-8 mb-8">
         <div>
-          <div class="font-syne font-extrabold text-xl mb-3" style="color:#0A2463;">QUININE</div>
-          <div class="font-jakarta text-[0.85rem] space-y-1" style="color: #475569;">
+          <div class="flex items-center gap-2 mb-2">
+            <img src="/logo.jpeg" alt="Quinine" class="h-6 w-6 rounded" style="object-fit: cover;">
+            <span class="font-syne font-extrabold text-[0.95rem]" style="color:#0A2463;">Quinine Cybersecurity Ltd</span>
+          </div>
+          <div class="font-jakarta text-[0.8rem] space-y-1" style="color: #475569;">
             <p>Level39, One Canada Square</p>
             <p>Canary Wharf, London E14 5AB</p>
-            <p class="mt-3">A Division of Quinine Group</p>
+            <p class="mt-2 text-[0.75rem]">A Division of Quinine Group</p>
           </div>
         </div>
-        <div class="flex items-start gap-6">
+        <div class="flex items-start gap-5">
           <a href="https://www.linkedin.com/company/quinine-cybersecurity-ltd/" target="_blank" rel="noopener noreferrer" class="hoverable" aria-label="Quinine on LinkedIn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#0A2463;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#0A2463;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           </a>
-          <a href="/privacy.html" class="font-jakarta text-sm hoverable" style="color:#475569;">Privacy Policy</a>
+          <a href="/privacy.html" class="font-jakarta text-[0.8rem] hoverable" style="color:#475569;">Privacy Policy</a>
         </div>
       </div>
-      <div class="flex flex-wrap items-center gap-3 mb-8">
-        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">OWASP</span>
-        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">ISO 42001</span>
-        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">MITRE ATLAS</span>
-        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">NIST AI RMF</span>
-        <span class="font-mono text-[0.7rem] border rounded-full px-3 py-1" style="color:#475569; border-color: rgba(10,36,99,0.12);">EU AI Act</span>
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">OWASP</span>
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">ISO 42001</span>
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">MITRE ATLAS</span>
       </div>
-      <div class="h-px mb-6" style="background: rgba(10,36,99,0.08);"></div>
-      <p class="font-jakarta text-[0.8rem] pb-8" style="color:#475569;">© 2026 Quinine Cybersecurity Ltd. All rights reserved.</p>
+      <div class="h-px mb-5" style="background: rgba(10,36,99,0.08);"></div>
+      <p class="font-jakarta text-[0.75rem] pb-6" style="color:#475569;">© 2026 Quinine Cybersecurity Ltd. All rights reserved.</p>
     </footer>
   </div>
 </section>
@@ -822,7 +772,6 @@ tailwind.config = {
 (function() {
   'use strict';
 
-  // ── Reduced motion check ──
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) {
     document.getElementById('preloader').style.display = 'none';
@@ -830,10 +779,8 @@ tailwind.config = {
     return;
   }
 
-  // ── Register GSAP plugins ──
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── Lenis smooth scroll ──
   const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true });
   function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
@@ -841,10 +788,8 @@ tailwind.config = {
   gsap.ticker.add((time) => { lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
 
-  // Stop scroll during preloader
   lenis.stop();
 
-  // ── Word split helper ──
   function splitWords(el) {
     const text = el.textContent;
     const words = text.split(/\s+/);
@@ -852,12 +797,10 @@ tailwind.config = {
     return el.querySelectorAll('.word');
   }
 
-  // ── PRELOADER ──
   const preloader = document.getElementById('preloader');
   const preloaderText = document.getElementById('preloader-text');
   const preloaderCounter = document.getElementById('preloader-counter');
   const heroHeadline = document.getElementById('heroHeadline');
-
   const heroWords = splitWords(heroHeadline);
 
   const preloaderTl = gsap.timeline({
@@ -867,54 +810,35 @@ tailwind.config = {
     }
   });
 
-  // Count 0 → 100
   preloaderTl.to({ val: 0 }, {
-    val: 100, duration: 2, ease: 'power4.inOut',
+    val: 100, duration: 1.8, ease: 'power4.inOut',
     onUpdate: function() { preloaderCounter.textContent = Math.round(this.targets()[0].val) + '%'; }
   });
 
-  // Fade out text + counter
-  preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.9, duration: 0.5, ease: 'power4.inOut' }, '-=0.3');
-
-  // Sweep up
-  preloaderTl.to(preloader, {
-    clipPath: 'inset(0 0 100% 0)', duration: 1.2, ease: 'power4.inOut'
-  }, '-=0.2');
-
-  // Hero words slide up
-  preloaderTl.to(heroWords, {
-    y: 0, duration: 1.2, ease: 'power4.out', stagger: 0.05
-  }, '-=0.8');
-
-  // Badge
-  preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.9');
-
-  // Subheading
+  preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power3.inOut' }, '-=0.2');
+  preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power4.inOut' }, '-=0.1');
+  preloaderTl.to(heroWords, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.04 }, '-=0.6');
+  preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.7');
   preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-
-  // CTAs
   preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-
-  // Trust
   preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
 
-  // ── CUSTOM CURSOR ──
+  // CUSTOM CURSOR
   const isTouchDevice = window.matchMedia('(hover: none)').matches;
   if (!isTouchDevice) {
     const cursorDot = document.getElementById('cursorDot');
-    const xTo = gsap.quickTo(cursorDot, 'left', { duration: 0.15, ease: 'power4.out' });
-    const yTo = gsap.quickTo(cursorDot, 'top', { duration: 0.15, ease: 'power4.out' });
+    const xTo = gsap.quickTo(cursorDot, 'left', { duration: 0.1, ease: 'power4.out' });
+    const yTo = gsap.quickTo(cursorDot, 'top', { duration: 0.1, ease: 'power4.out' });
 
     window.addEventListener('mousemove', (e) => {
       xTo(e.clientX); yTo(e.clientY);
     });
 
-    document.querySelectorAll('.hoverable, a, button, .service-card, .framework-row').forEach(el => {
+    document.querySelectorAll('.hoverable, a, button, input, select, .service-card, .framework-row').forEach(el => {
       el.addEventListener('mouseenter', () => cursorDot.classList.add('hovering'));
       el.addEventListener('mouseleave', () => cursorDot.classList.remove('hovering'));
     });
 
-    // ── MAGNETIC HOVER ──
     document.querySelectorAll('[data-magnetic]').forEach(el => {
       el.addEventListener('mousemove', (e) => {
         const rect = el.getBoundingClientRect();
@@ -928,16 +852,13 @@ tailwind.config = {
     });
   }
 
-  // ── ORB CURSOR TRACKING + ANIMATION ──
+  // ORB CURSOR TRACKING
   const orbCore = document.getElementById('orbCore');
   const orbHalo = document.getElementById('orbHalo');
   const orbAmbient = document.getElementById('orbAmbient');
 
-  // Infinite rotation
   gsap.to(orbCore, { rotation: 360, duration: 60, ease: 'linear', repeat: -1 });
   gsap.to(orbHalo, { rotation: -360, duration: 80, ease: 'linear', repeat: -1 });
-
-  // Scale pulse
   gsap.to(orbCore, { scale: 1.15, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
   gsap.to(orbHalo, { scale: 1.1, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
@@ -955,30 +876,27 @@ tailwind.config = {
       const mouseX = e.clientX - cx;
       const mouseY = e.clientY - cy;
       
-      orbCoreX(mouseX * 0.6); orbCoreY(mouseY * 0.6);
-      orbHaloX(mouseX * 0.4); orbHaloY(mouseY * 0.4);
-      orbAmbX(mouseX * 0.2); orbAmbY(mouseY * 0.2);
+      orbCoreX(mouseX * 0.5); orbCoreY(mouseY * 0.5);
+      orbHaloX(mouseX * 0.3); orbHaloY(mouseY * 0.3);
+      orbAmbX(mouseX * 0.15); orbAmbY(mouseY * 0.15);
     });
   }
 
-  // Hero scroll parallax
   gsap.to('.orb-container', {
-    scale: 1.4, opacity: 0, ease: 'none',
+    scale: 1.2, opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
   });
   gsap.to('#hero .relative.z-10', {
-    y: '30%', ease: 'none',
+    y: '20%', ease: 'none',
     scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1 }
   });
 
-  // ── NAV SCROLL ──
   ScrollTrigger.create({
-    start: 60,
+    start: 50,
     onEnter: () => document.getElementById('navbar').classList.add('scrolled'),
     onLeaveBack: () => document.getElementById('navbar').classList.remove('scrolled')
   });
 
-  // ── MOBILE MENU ──
   const hamburger = document.getElementById('hamburgerBtn');
   const mobileOverlay = document.getElementById('mobile-overlay');
   const mobileItems = document.querySelectorAll('.mobile-menu-item');
@@ -991,7 +909,7 @@ tailwind.config = {
     hamburger.setAttribute('aria-expanded', menuOpen);
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
-      gsap.fromTo(mobileItems, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.08, delay: 0.3 });
+      gsap.fromTo(mobileItems, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power4.out', stagger: 0.08, delay: 0.2 });
     } else {
       document.body.style.overflow = '';
     }
@@ -1008,14 +926,12 @@ tailwind.config = {
     });
   });
 
-  // ── MARQUEE ──
   const marqueeInner = document.querySelector('.marquee-inner');
-  gsap.to(marqueeInner, { xPercent: -50, repeat: -1, duration: 25, ease: 'linear' });
+  gsap.to(marqueeInner, { xPercent: -50, repeat: -1, duration: 30, ease: 'linear' });
 
-  // ── STAT COUNTER (marquee) ──
   ScrollTrigger.create({
     trigger: '#statCounter',
-    start: 'top 85%',
+    start: 'top 90%',
     once: true,
     onEnter: () => {
       gsap.to({ val: 0 }, {
@@ -1025,17 +941,15 @@ tailwind.config = {
     }
   });
 
-  // ── PROBLEM SECTION ──
   const problemHeading = document.querySelector('.problem-heading');
   const problemWords = splitWords(problemHeading);
-  // Re-apply the electric class to "outpaced"
   problemHeading.querySelectorAll('.word').forEach(w => {
     if (w.textContent === 'outpaced') w.classList.add('text-electric');
   });
 
   gsap.to(problemWords, {
     y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
-    scrollTrigger: { trigger: '.problem-heading', start: 'top 80%' }
+    scrollTrigger: { trigger: '.problem-heading', start: 'top 85%' }
   });
   gsap.to('.problem-body', {
     opacity: 1, y: 0, duration: 0.8, ease: 'power4.out',
@@ -1043,24 +957,21 @@ tailwind.config = {
   });
   gsap.to('.problem-line', {
     scaleX: 1, duration: 1.2, ease: 'power4.out',
-    scrollTrigger: { trigger: '.problem-line', start: 'top 90%', scrub: 1 }
+    scrollTrigger: { trigger: '.problem-line', start: 'top 95%', scrub: 1 }
   });
 
-  // ── SERVICES HEADING ──
   const servicesHeading = document.querySelector('.services-heading');
   const serviceWords = splitWords(servicesHeading);
   gsap.to(serviceWords, {
     y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
-    scrollTrigger: { trigger: '.services-heading', start: 'top 80%' }
+    scrollTrigger: { trigger: '.services-heading', start: 'top 85%' }
   });
 
-  // ── SERVICES CARDS BATCH ──
   ScrollTrigger.batch('[data-service]', {
-    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 40, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power4.out', stagger: 0.08 }),
-    start: 'top 85%'
+    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 30, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power4.out', stagger: 0.08 }),
+    start: 'top 88%'
   });
 
-  // ── SPOTLIGHT EFFECT ──
   if (!isTouchDevice) {
     document.querySelectorAll('.services-grid').forEach(grid => {
       grid.addEventListener('mousemove', (e) => {
@@ -1074,45 +985,40 @@ tailwind.config = {
     });
   }
 
-  // ── APPROACH HEADING ──
   const approachHeading = document.querySelector('.approach-heading');
   const approachWords = splitWords(approachHeading);
   gsap.to(approachWords, {
     y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
-    scrollTrigger: { trigger: '.approach-heading', start: 'top 80%' }
+    scrollTrigger: { trigger: '.approach-heading', start: 'top 85%' }
   });
 
-  // ── TIMELINE LINE DRAW ──
   const timelineLine = document.getElementById('timelineLine');
   gsap.to(timelineLine, {
     strokeDashoffset: 0, ease: 'none',
-    scrollTrigger: { trigger: '#approach .relative', start: 'top 70%', end: 'bottom 70%', scrub: 1 }
+    scrollTrigger: { trigger: '#approach .relative', start: 'top 60%', end: 'bottom 70%', scrub: 1 }
   });
 
-  // Step circle activation
   document.querySelectorAll('.step-item').forEach((item, i) => {
     const circle = item.querySelector('.step-circle');
     ScrollTrigger.create({
       trigger: item,
-      start: 'top 60%',
+      start: 'top 65%',
       onEnter: () => circle.classList.add('active'),
       onLeaveBack: () => circle.classList.remove('active')
     });
-    gsap.fromTo(item, { opacity: 0, y: 30 }, {
+    gsap.fromTo(item, { opacity: 0, y: 20 }, {
       opacity: 1, y: 0, duration: 0.8, ease: 'power4.out',
-      scrollTrigger: { trigger: item, start: 'top 80%' }
+      scrollTrigger: { trigger: item, start: 'top 85%' }
     });
   });
 
-  // ── FRAMEWORKS HEADING ──
   const frameworksHeading = document.querySelector('.frameworks-heading');
   const frameworkWords = splitWords(frameworksHeading);
   gsap.to(frameworkWords, {
     y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
-    scrollTrigger: { trigger: '.frameworks-heading', start: 'top 80%' }
+    scrollTrigger: { trigger: '.frameworks-heading', start: 'top 85%' }
   });
 
-  // Frameworks accordion
   document.querySelectorAll('[data-framework]').forEach(row => {
     row.addEventListener('click', () => {
       const wasOpen = row.classList.contains('open');
@@ -1121,27 +1027,23 @@ tailwind.config = {
     });
   });
 
-  // Frameworks stagger in
   ScrollTrigger.batch('[data-framework]', {
-    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power4.out', stagger: 0.06 }),
-    start: 'top 88%'
+    onEnter: (els) => gsap.fromTo(els, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power4.out', stagger: 0.05 }),
+    start: 'top 90%'
   });
 
-  // ── TRUST HEADING ──
   const trustHeading = document.querySelector('.trust-heading');
   const trustWords = splitWords(trustHeading);
   gsap.to(trustWords, {
     y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
-    scrollTrigger: { trigger: '.trust-heading', start: 'top 80%' }
+    scrollTrigger: { trigger: '.trust-heading', start: 'top 85%' }
   });
 
-  // Trust stats
   ScrollTrigger.batch('.trust-stat', {
-    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.12 }),
-    start: 'top 85%'
+    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.1 }),
+    start: 'top 88%'
   });
 
-  // Trust % counter
   ScrollTrigger.create({
     trigger: '#trustPercent',
     start: 'top 85%',
@@ -1154,37 +1056,32 @@ tailwind.config = {
     }
   });
 
-  // ── CTA COLOR TRANSITION ──
   const ctaSection = document.getElementById('cta-section');
   const ctaHeading = document.querySelector('.cta-heading');
   const ctaSectionWords = splitWords(ctaHeading);
 
   gsap.to(ctaSectionWords, {
-    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.05,
-    scrollTrigger: { trigger: '.cta-heading', start: 'top 80%' }
+    y: 0, opacity: 1, duration: 0.8, ease: 'power4.out', stagger: 0.04,
+    scrollTrigger: { trigger: '.cta-heading', start: 'top 85%' }
   });
 
-  // Background color transition
   ScrollTrigger.create({
     trigger: ctaSection,
     start: 'top 70%',
-    end: 'top 20%',
+    end: 'top 30%',
     scrub: 1,
     onUpdate: (self) => {
       const p = self.progress;
-      // Interpolate bg from white to deepnavy
       const r = Math.round(255 - p * (255 - 6));
       const g = Math.round(255 - p * (255 - 20));
       const b = Math.round(255 - p * (255 - 57));
       ctaSection.style.background = `rgb(${r},${g},${b})`;
 
-      // Text colors
       const textR = Math.round(10 + p * (255 - 10));
       const textG = Math.round(36 + p * (255 - 36));
       const textB = Math.round(99 + p * (255 - 99));
       ctaHeading.style.color = `rgb(${textR},${textG},${textB})`;
 
-      // Footer text
       const footer = ctaSection.querySelector('footer');
       if (footer) {
         footer.querySelectorAll('.font-syne').forEach(el => el.style.color = `rgb(${textR},${textG},${textB})`);
@@ -1200,64 +1097,6 @@ tailwind.config = {
     }
   });
 
-  // ── FORM ──
-  const ctaForm = document.getElementById('ctaForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const emailInput = document.getElementById('emailInput');
-  const concernSelect = document.getElementById('concernSelect');
-
-  ctaForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Submitting...';
-    submitBtn.disabled = true;
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: emailInput.value, concern: concernSelect.value })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Something went wrong');
-      }
-
-      submitBtn.textContent = 'Submitted ✓';
-      submitBtn.style.background = '#22c55e';
-      submitBtn.style.color = '#fff';
-      ctaForm.reset();
-      
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.style.background = '';
-        submitBtn.style.color = '';
-        submitBtn.disabled = false;
-      }, 4000);
-
-    } catch (err) {
-      submitBtn.textContent = err.message || 'Error occurred';
-      submitBtn.style.background = '#ef4444';
-      submitBtn.style.color = '#fff';
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.style.background = '';
-        submitBtn.style.color = '';
-        submitBtn.disabled = false;
-      }, 4000);
-    }
-  });
-
-  // Make submit work on button click
-  submitBtn.addEventListener('click', (e) => {
-    if (!ctaForm.checkValidity()) {
-      ctaForm.reportValidity();
-    }
-  });
-
-  // ── SMOOTH SCROLL ANCHORS ──
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
       e.preventDefault();

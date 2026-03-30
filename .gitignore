@@ -3,4 +3,6 @@ database.sqlite
 .env
 .claude/
 *.docx
+_docx_images/
 public/Website.html
+Qunine*.jpeg
