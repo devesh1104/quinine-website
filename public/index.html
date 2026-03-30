@@ -199,6 +199,7 @@ tailwind.config = {
 
   /* ── Services spotlight cards ── */
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  #servicesGrid { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr) !important; } }
   @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr !important; } }
   
@@ -269,8 +270,8 @@ tailwind.config = {
   /* ── Form ── */
   .form-field { position: relative; }
   .form-field input, .form-field select {
-    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
-    color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
+    width: 100%; background: transparent; border: none; border-bottom: 1.5px solid rgba(10,36,99,0.15);
+    color: #0A2463; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
     padding: 16px 0 12px; outline: none;
     transition: border-color 0.3s cubic-bezier(0.16,1,0.3,1);
   }
@@ -279,21 +280,23 @@ tailwind.config = {
   }
   .form-field label {
     position: absolute; left: 0; top: 16px;
-    color: rgba(255,255,255,0.5); font-size: 0.95rem; pointer-events: none;
+    color: rgba(10,36,99,0.4); font-size: 0.95rem; pointer-events: none;
     transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   .form-field input:focus + label,
   .form-field input:not(:placeholder-shown) + label { top: -8px; font-size: 0.7rem; color: #2E6FF2; }
-  .form-field select { appearance: none; }
-  .form-field select option { background: #061439; color: #fff; }
+  .form-field select { appearance: none; color: rgba(10,36,99,0.4); }
+  .form-field select:valid { color: #0A2463; }
+  .form-field select option { background: #fff; color: #0A2463; }
 
   .submit-btn {
     width: 100%; padding: 16px; border-radius: 9999px;
-    background: #fff; color: #0A2463; border: none;
+    background: linear-gradient(135deg, #0A2463 0%, #1a3a7a 100%); color: #fff; border: none;
     font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
+    box-shadow: 0 4px 20px rgba(10,36,99,0.15);
     transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .submit-btn:hover { box-shadow: 0 0 30px rgba(255,255,255,0.15); transform: translateY(-2px); }
+  .submit-btn:hover { box-shadow: 0 8px 28px rgba(46,111,242,0.25); transform: translateY(-2px); }
 
   /* ── Mobile menu ── */
   #mobile-overlay {
@@ -340,13 +343,41 @@ tailwind.config = {
   @media (max-width: 768px) {
     #navbar { padding: 16px 20px; }
     #navbar.scrolled { padding: 12px 20px; }
-    .orb-core { width: 300px; height: 300px; }
-    .orb-halo { width: 400px; height: 400px; }
-    .orb-ambient { width: 500px; height: 500px; }
+    .orb-core { width: 250px; height: 250px; }
+    .orb-halo { width: 350px; height: 350px; }
+    .orb-ambient { width: 450px; height: 450px; }
+    #hero { min-height: 100svh; padding-top: 80px; }
+    .hero-badge { font-size: 0.6rem; padding: 6px 14px; gap: 6px; }
+    .hero-badge .badge-dot { width: 5px; height: 5px; }
+    #heroCtas .cta-pill { width: 100%; text-align: center; justify-content: center; padding: 14px 24px; }
+    .service-card { padding: 24px; border-radius: 16px; }
+    .step-circle { width: 36px; height: 36px; min-width: 36px; font-size: 0.75rem; }
+    .framework-row { padding: 16px 0; }
+    .glass-card { padding: 24px; }
+    .marquee-item { font-size: 1rem; padding: 0 16px; }
+    .scroll-indicator { bottom: 24px; }
+    .mobile-menu-item { padding: 16px 0; }
+    .form-field input, .form-field select { font-size: 1rem; padding: 14px 0 10px; }
+    .submit-btn { padding: 14px; font-size: 0.9rem; }
+    footer .flex-wrap .font-mono { font-size: 0.6rem; }
+  }
+  @media (max-width: 480px) {
+    .orb-core { width: 200px; height: 200px; }
+    .orb-halo { width: 280px; height: 280px; }
+    .orb-ambient { width: 360px; height: 360px; }
+    .tag-pill { font-size: 0.55rem; padding: 4px 10px; }
+    .marquee-item { font-size: 0.85rem; padding: 0 12px; gap: 16px; }
   }
 
   /* ── Focus visible ── */
   :focus-visible { outline: 2px solid #2E6FF2; outline-offset: 3px; border-radius: 4px; }
+
+  /* ── Touch-friendly tap targets ── */
+  @media (hover: none) {
+    .cta-pill, .submit-btn, .framework-row, .mobile-menu-item { min-height: 44px; }
+    .service-card:active { transform: scale(0.98); transition: transform 0.15s; }
+    .framework-row:active { background: rgba(46,111,242,0.05); }
+  }
 
   /* Hamburger */
   .hamburger { display: none; flex-direction: column; gap: 6px; z-index: 9001; }
@@ -428,9 +459,9 @@ tailwind.config = {
 But without control, it introduces risks most organisations aren’t prepared for.
 Quinine Cybersecurity helps you secure, govern, and manage AI across your enterprise - from data to decisions.
     </p>
-    <div class="flex flex-wrap items-center justify-center gap-4 mb-14" id="heroCtas" style="opacity:0;">
-      <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-3.5 text-[0.88rem]" data-magnetic>Secure Your AI Systems</a>
-      <a href="#services" class="cta-pill hoverable px-8 py-3.5 text-[0.88rem]" data-magnetic>Explore Our Approach</a>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14 w-full px-4 sm:px-0" id="heroCtas" style="opacity:0;">
+      <a href="#contact" class="cta-pill cta-primary hoverable px-8 py-3.5 text-[0.88rem] w-full sm:w-auto text-center" data-magnetic>Secure Your AI Systems</a>
+      <a href="#services" class="cta-pill hoverable px-8 py-3.5 text-[0.88rem] w-full sm:w-auto text-center" data-magnetic>Explore Our Approach</a>
     </div>
     <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs" id="heroTrust" style="opacity:0;">
       <span class="tag-pill border border-slate/15 text-slate/60 hoverable">OWASP</span>
@@ -462,12 +493,12 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
     </div>
   </div>
   <div class="bg-deepnavy border-t border-white/10 py-3">
-    <div class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-8 px-5">
-      <span class="font-jakarta text-white/70 text-[0.85rem]">Level39, Canary Wharf</span>
-      <span class="w-1 h-1 bg-electric rounded-full"></span>
-      <span class="font-jakarta text-white/70 text-[0.85rem]"><span id="statCounter" class="font-syne font-extrabold text-white">0</span>% of AI systems had critical vulnerabilities</span>
-      <span class="w-1 h-1 bg-electric rounded-full"></span>
-      <span class="font-jakarta text-white/70 text-[0.85rem]">48hr response time</span>
+    <div class="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-4 md:gap-8 px-5">
+      <span class="font-jakarta text-white/70 text-[0.75rem] md:text-[0.85rem]">Level39, Canary Wharf</span>
+      <span class="w-1 h-1 bg-electric rounded-full hidden md:block"></span>
+      <span class="font-jakarta text-white/70 text-[0.75rem] md:text-[0.85rem]"><span id="statCounter" class="font-syne font-extrabold text-white">0</span>% of AI systems had critical vulnerabilities</span>
+      <span class="w-1 h-1 bg-electric rounded-full hidden md:block"></span>
+      <span class="font-jakarta text-white/70 text-[0.75rem] md:text-[0.85rem]">48hr response time</span>
     </div>
   </div>
 </section>
@@ -499,7 +530,7 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       <p class="font-jakarta text-slate text-[0.95rem] max-w-[560px] mx-auto">Specialist security assessments for organisations deploying AI — from LLM penetration testing to RAG pipeline hardening.</p>
     </div>
 
-    <div class="services-grid" id="servicesGrid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
+    <div class="services-grid" id="servicesGrid" style="margin-bottom: 20px;">
       <div class="service-card hoverable" data-service style="border-color: rgba(46,111,242,0.12); background: linear-gradient(135deg, rgba(247,248,250,0.9) 0%, rgba(46,111,242,0.02) 100%);">
         <div class="flex items-center gap-3 mb-4">
           <span class="font-mono text-electric font-semibold text-xs">01</span>
@@ -781,9 +812,15 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
 
   gsap.registerPlugin(ScrollTrigger);
 
-  const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true });
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
+  const lenis = new Lenis({
+    duration: 1.4,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    smoothTouch: true,
+    touchMultiplier: 1.5
+  });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => { lenis.raf(time * 1000); });
   gsap.ticker.lagSmoothing(0);
