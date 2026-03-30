@@ -264,39 +264,39 @@ tailwind.config = {
   .framework-row.open .framework-desc { max-height: 140px; opacity: 1; padding-top: 12px; }
   .frameworks-list:hover .framework-row:not(:hover) { opacity: 0.4; }
 
-  /* ── CTA section color transition ── */
-  #cta-section { background: #fff; }
+  /* ── CTA section ── */
+  #cta-section { background: #0A2463; }
 
   /* ── Form ── */
   .form-field { position: relative; }
   .form-field input, .form-field select {
-    width: 100%; background: transparent; border: none; border-bottom: 1.5px solid rgba(10,36,99,0.15);
-    color: #0A2463; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
+    width: 100%; background: transparent; border: none; border-bottom: 1.5px solid rgba(255,255,255,0.25);
+    color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem;
     padding: 16px 0 12px; outline: none;
     transition: border-color 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   .form-field input:focus, .form-field select:focus {
-    border-color: #2E6FF2; box-shadow: 0 1px 0 0 #2E6FF2;
+    border-color: #4A8BFF; box-shadow: 0 1px 0 0 #4A8BFF;
   }
   .form-field label {
     position: absolute; left: 0; top: 16px;
-    color: rgba(10,36,99,0.4); font-size: 0.95rem; pointer-events: none;
+    color: rgba(255,255,255,0.5); font-size: 0.95rem; pointer-events: none;
     transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   }
   .form-field input:focus + label,
-  .form-field input:not(:placeholder-shown) + label { top: -8px; font-size: 0.7rem; color: #2E6FF2; }
-  .form-field select { appearance: none; color: rgba(10,36,99,0.4); }
-  .form-field select:valid { color: #0A2463; }
-  .form-field select option { background: #fff; color: #0A2463; }
+  .form-field input:not(:placeholder-shown) + label { top: -8px; font-size: 0.7rem; color: #4A8BFF; }
+  .form-field select { appearance: none; color: rgba(255,255,255,0.5); }
+  .form-field select:valid { color: #fff; }
+  .form-field select option { background: #0A2463; color: #fff; }
 
   .submit-btn {
     width: 100%; padding: 16px; border-radius: 9999px;
-    background: linear-gradient(135deg, #0A2463 0%, #1a3a7a 100%); color: #fff; border: none;
+    background: #fff; color: #0A2463; border: none;
     font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;
-    box-shadow: 0 4px 20px rgba(10,36,99,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     transition: box-shadow 0.4s cubic-bezier(0.16,1,0.3,1), background 0.3s, color 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .submit-btn:hover { box-shadow: 0 8px 28px rgba(46,111,242,0.25); transform: translateY(-2px); }
+  .submit-btn:hover { box-shadow: 0 8px 28px rgba(255,255,255,0.2); transform: translateY(-2px); }
 
   /* ── Mobile menu ── */
   #mobile-overlay {
@@ -744,9 +744,9 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
 
 <section id="cta-section" aria-label="Contact">
   <div id="contact" class="relative overflow-hidden" style="padding: clamp(80px, 12vw, 160px) 0 50px;">
-    <div class="absolute top-1/4 -right-40 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(46,111,242,0.15) 0%, transparent 70%); filter: blur(80px);" aria-hidden="true"></div>
+    <div class="absolute top-1/4 -right-40 w-[600px] h-[600px] rounded-full opacity-30 pointer-events-none" style="background: radial-gradient(circle, rgba(46,111,242,0.3) 0%, transparent 70%); filter: blur(80px);" aria-hidden="true"></div>
     <div class="max-w-[560px] mx-auto px-6 lg:px-10 relative z-10">
-      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.08] mb-10 text-center cta-heading" style="font-size:clamp(2rem, 4vw, 3.5rem); color:#0A2463;">Secure the model.</h2>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.08] mb-10 text-center cta-heading" style="font-size:clamp(2rem, 4vw, 3.5rem); color:#fff;">Secure the model.</h2>
       <form id="ctaForm" class="space-y-6" onsubmit="return false;">
         <div class="form-field">
           <input type="email" id="emailInput" class="hoverable" placeholder=" " required autocomplete="email" aria-label="Your work email">
@@ -766,14 +766,14 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
     </div>
 
     <footer class="max-w-[1100px] mx-auto px-6 lg:px-10 mt-24 relative z-10" role="contentinfo">
-      <div class="h-px mb-8" style="background: rgba(10,36,99,0.08);"></div>
+      <div class="h-px mb-8" style="background: rgba(255,255,255,0.12);"></div>
       <div class="flex flex-col lg:flex-row justify-between gap-8 mb-8">
         <div>
           <div class="flex items-center gap-2 mb-2">
             <img src="/logo.png" alt="Quinine" class="h-10 w-10 rounded" style="object-fit: cover;">
-            <span class="font-syne font-extrabold text-[0.95rem]" style="color:#0A2463;">Quinine Cybersecurity Ltd</span>
+            <span class="font-syne font-extrabold text-[0.95rem]" style="color:#fff;">Quinine Cybersecurity Ltd</span>
           </div>
-          <div class="font-jakarta text-[0.8rem] space-y-1" style="color: #475569;">
+          <div class="font-jakarta text-[0.8rem] space-y-1" style="color: rgba(255,255,255,0.55);">
             <p>Level39, One Canada Square</p>
             <p>Canary Wharf, London E14 5AB</p>
             <p class="mt-2 text-[0.75rem]">A Division of Quinine Group</p>
@@ -781,18 +781,18 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
         </div>
         <div class="flex items-start gap-5">
           <a href="https://www.linkedin.com/company/quinine-cybersecurity-ltd/" target="_blank" rel="noopener noreferrer" class="hoverable" aria-label="Quinine on LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#0A2463;"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(255,255,255,0.7);"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
           </a>
-          <a href="/privacy.html" class="font-jakarta text-[0.8rem] hoverable" style="color:#475569;">Privacy Policy</a>
+          <a href="/privacy.html" class="font-jakarta text-[0.8rem] hoverable" style="color:rgba(255,255,255,0.55);">Privacy Policy</a>
         </div>
       </div>
       <div class="flex flex-wrap items-center gap-2 mb-6">
-        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">OWASP</span>
-        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">ISO 42001</span>
-        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:#475569; border-color: rgba(10,36,99,0.12);">MITRE ATLAS</span>
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.15);">OWASP</span>
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.15);">ISO 42001</span>
+        <span class="font-mono text-[0.65rem] border rounded-full px-2.5 py-0.5" style="color:rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.15);">MITRE ATLAS</span>
       </div>
-      <div class="h-px mb-5" style="background: rgba(10,36,99,0.08);"></div>
-      <p class="font-jakarta text-[0.75rem] pb-6" style="color:#475569;">© 2026 Quinine Cybersecurity Ltd. All rights reserved.</p>
+      <div class="h-px mb-5" style="background: rgba(255,255,255,0.12);"></div>
+      <p class="font-jakarta text-[0.75rem] pb-6" style="color:rgba(255,255,255,0.4);">© 2026 Quinine Cybersecurity Ltd. All rights reserved.</p>
     </footer>
   </div>
 </section>
