@@ -367,7 +367,7 @@ tailwind.config = {
 <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
 <div id="preloader" aria-hidden="true">
-  <div id="preloader-text">Quinine Cyber</div>
+  <div id="preloader-text">Quinine Cyberbersecurity Ltd.</div>
   <div id="preloader-counter">0%</div>
 </div>
 
@@ -383,10 +383,10 @@ tailwind.config = {
 <header id="navbar" role="banner">
   <div class="flex items-center justify-between max-w-[1400px] mx-auto">
     <a href="/" class="flex items-center gap-2 hoverable" aria-label="Quinine home">
-      <img src="/logo.jpeg" alt="Quinine" class="h-7 w-7 rounded" style="object-fit: cover;">
+      <img src="/logo.png" alt="Quinine" class="h-10 w-10 rounded" style="object-fit: cover;">
       <div class="flex items-center gap-1.5">
-        <span class="font-syne font-extrabold text-navy text-[0.95rem] tracking-tight leading-none">Quinine Cybersecurity<span class="font-bold text-[0.7rem] text-slate/50 ml-1">Ltd</span></span>
-        <span class="w-1 h-1 bg-electric rounded-full flex-shrink-0" style="animation: badgePulse 2.5s ease infinite;"></span>
+        <span class="font-syne font-extrabold text-navy text-[0.95rem] tracking-tight leading-none">Quinine Cybersecurity Ltd. </span>
+        <!-- <span class="w-1 h-1 bg-electric rounded-full flex-shrink-0" style="animation: badgePulse 2.5s ease infinite;"></span> -->
       </div>
     </a>
     <nav class="hidden lg:flex items-center gap-10" aria-label="Main navigation">
@@ -739,7 +739,7 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       <div class="flex flex-col lg:flex-row justify-between gap-8 mb-8">
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <img src="/logo.jpeg" alt="Quinine" class="h-6 w-6 rounded" style="object-fit: cover;">
+            <img src="/logo.png" alt="Quinine" class="h-10 w-10 rounded" style="object-fit: cover;">
             <span class="font-syne font-extrabold text-[0.95rem]" style="color:#0A2463;">Quinine Cybersecurity Ltd</span>
           </div>
           <div class="font-jakarta text-[0.8rem] space-y-1" style="color: #475569;">
@@ -1104,6 +1104,62 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       if (target) lenis.scrollTo(target, { offset: -80, duration: 1.2 });
     });
   });
+
+  // ── Contact form submission ──
+  const ctaForm = document.getElementById('ctaForm');
+  const submitBtn = document.getElementById('submitBtn');
+  if (ctaForm) {
+    ctaForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('emailInput').value.trim();
+      const concern = document.getElementById('concernSelect').value;
+      if (!email || !concern) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, concern })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          submitBtn.textContent = 'Submitted ✓';
+          submitBtn.style.background = '#16a34a';
+          submitBtn.style.color = '#fff';
+          ctaForm.reset();
+          setTimeout(() => {
+            submitBtn.textContent = 'Book Discovery Call';
+            submitBtn.style.background = '';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+          }, 3000);
+        } else {
+          submitBtn.textContent = data.error || 'Error — try again';
+          submitBtn.style.background = '#dc2626';
+          submitBtn.style.color = '#fff';
+          setTimeout(() => {
+            submitBtn.textContent = 'Book Discovery Call';
+            submitBtn.style.background = '';
+            submitBtn.style.color = '';
+            submitBtn.disabled = false;
+          }, 3000);
+        }
+      } catch (err) {
+        submitBtn.textContent = 'Network error — try again';
+        submitBtn.style.background = '#dc2626';
+        submitBtn.style.color = '#fff';
+        setTimeout(() => {
+          submitBtn.textContent = 'Book Discovery Call';
+          submitBtn.style.background = '';
+          submitBtn.style.color = '';
+          submitBtn.disabled = false;
+        }, 3000);
+      }
+    });
+  }
 
 })();
 </script>
