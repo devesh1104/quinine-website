@@ -154,10 +154,23 @@ tailwind.config = {
   #hero { position: relative; min-height: 100svh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   
   /* Technical Background Grid */
-  .hero-grid {
+  /* .hero-grid {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background-image: linear-gradient(rgba(10,36,99,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10,36,99,0.03) 1px, transparent 1px);
     background-size: 40px 40px; z-index: 0; pointer-events: none;
+  }
+  */
+  .hero-grid {
+  position: absolute; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  /* Increased opacity to 0.15 for better visibility */
+  background-image: 
+    linear-gradient(rgba(10,36,99,0.15) 1px, transparent 1px), 
+    linear-gradient(90deg, rgba(10,36,99,0.15) 1px, transparent 1px);
+  background-size: 40px 40px; 
+  z-index: 0; 
+  pointer-events: none;
   }
 
   .hero-badge {
