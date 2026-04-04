@@ -80,7 +80,6 @@ tailwind.config = {
     color: #fff; letter-spacing: 0.1em; 
     text-transform: uppercase;
   }
-  #preloader-counter { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: #2E6FF2; margin-top: 1rem; }
 
   /* ── Custom Cursor (Fixed Overlap) ── */
   @media (hover: hover) {
@@ -206,8 +205,13 @@ tailwind.config = {
     filter: blur(120px);
   }
 
-  /* ── Marquee ── */
-  .marquee-track { display: flex; white-space: nowrap; will-change: transform; }
+  /* ── Marquee (pure CSS, zero JS cost) ── */
+  .marquee-track { overflow: hidden; }
+  .marquee-inner {
+    display: flex; white-space: nowrap; will-change: transform;
+    animation: marqueeScroll 30s linear infinite;
+  }
+  @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   .marquee-item {
     display: inline-flex; align-items: center; gap: 24px;
     padding: 0 24px; font-family: 'Syne', sans-serif; font-weight: 700;
@@ -417,7 +421,6 @@ tailwind.config = {
 
 <div id="preloader" aria-hidden="true">
   <div id="preloader-text">Quinine Cybersecurity Ltd.</div>
-  <div id="preloader-counter">0%</div>
 </div>
 
 <div id="mobile-overlay" role="dialog" aria-label="Mobile navigation">
@@ -758,10 +761,7 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       </div>
       <div class="lg:w-[45%] lg:mt-8">
         <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <!-- Founder photo placeholder — replace /founder.jpg when available -->
-          <div class="w-[140px] h-[170px] rounded-2xl flex-shrink-0 flex items-center justify-center" style="background: #0A2463;">
-            <span class="font-syne font-extrabold text-white text-4xl">C</span>
-          </div>
+          <img src="/founder.jpg" alt="Chinmay, Founder of Quinine Cybersecurity" class="w-[140px] h-[170px] rounded-2xl flex-shrink-0 object-cover" loading="lazy">
           <div>
             <!-- TODO: add surname -->
             <h3 class="font-jakarta font-bold text-[1.1rem] text-navy mb-1">Chinmay</h3>
@@ -817,7 +817,7 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       <div class="flex flex-col lg:flex-row justify-between gap-8 mb-8">
         <div>
           <div class="flex items-center gap-2 mb-2">
-            <img src="/logo.png" alt="Quinine" class="h-10 w-10 rounded" style="object-fit: cover;">
+            <img src="/logo.png" alt="Quinine" class="h-10 w-10 rounded" loading="lazy" style="object-fit: cover;">
             <span class="font-syne font-extrabold text-[0.95rem]" style="color:#fff;">Quinine Cybersecurity Ltd</span>
           </div>
           <div class="font-jakarta text-[0.8rem] space-y-1" style="color: rgba(255,255,255,0.55);">
@@ -863,14 +863,17 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
 
   gsap.registerPlugin(ScrollTrigger);
 
+  const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+  // Disable Lenis smooth scroll on mobile/touch — native scroll is lighter and more responsive
   const lenis = new Lenis({
-    duration: 1.4,
+    duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     direction: 'vertical',
     gestureDirection: 'vertical',
-    smooth: true,
-    smoothTouch: true,
-    touchMultiplier: 1.5
+    smooth: !isTouchDevice,
+    smoothTouch: false,
+    touchMultiplier: 1
   });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => { lenis.raf(time * 1000); });
@@ -887,7 +890,6 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
 
   const preloader = document.getElementById('preloader');
   const preloaderText = document.getElementById('preloader-text');
-  const preloaderCounter = document.getElementById('preloader-counter');
   const heroHeadline = document.getElementById('heroHeadline');
   const heroWords = splitWords(heroHeadline);
 
@@ -911,22 +913,17 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       }
     });
 
-    preloaderTl.to({ val: 0 }, {
-      val: 100, duration: 1.8, ease: 'power4.inOut',
-      onUpdate: function() { preloaderCounter.textContent = Math.round(this.targets()[0].val) + '%'; }
-    });
-
-    preloaderTl.to([preloaderText, preloaderCounter], { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power3.inOut' }, '-=0.2');
-    preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 1, ease: 'power4.inOut' }, '-=0.1');
-    preloaderTl.to(heroWords, { y: 0, duration: 1, ease: 'power4.out', stagger: 0.04 }, '-=0.6');
-    preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.7');
-    preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-    preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
-    preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' }, '-=0.5');
+    // Fast preloader — under 0.5s total
+    preloaderTl.to(preloaderText, { opacity: 0, scale: 0.97, duration: 0.2, ease: 'power3.inOut' }, 0.15);
+    preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 0.4, ease: 'power4.inOut' }, 0.25);
+    preloaderTl.to(heroWords, { y: 0, duration: 0.7, ease: 'power4.out', stagger: 0.03 }, '-=0.25');
+    preloaderTl.to('#heroBadge', { opacity: 1, y: 0, duration: 0.5, ease: 'power4.out' }, '-=0.5');
+    preloaderTl.to('#heroSub', { opacity: 1, y: 0, duration: 0.5, ease: 'power4.out' }, '-=0.35');
+    preloaderTl.to('#heroCtas', { opacity: 1, y: 0, duration: 0.5, ease: 'power4.out' }, '-=0.35');
+    preloaderTl.to('#heroTrust', { opacity: 1, y: 0, duration: 0.5, ease: 'power4.out' }, '-=0.35');
   }
 
   // CUSTOM CURSOR
-  const isTouchDevice = window.matchMedia('(hover: none)').matches;
   if (!isTouchDevice) {
     const cursorDot = document.getElementById('cursorDot');
     const xTo = gsap.quickTo(cursorDot, 'left', { duration: 0.1, ease: 'power4.out' });
@@ -1027,9 +1024,6 @@ Quinine Cybersecurity helps you secure, govern, and manage AI across your enterp
       }
     });
   });
-
-  const marqueeInner = document.querySelector('.marquee-inner');
-  gsap.to(marqueeInner, { xPercent: -50, repeat: -1, duration: 30, ease: 'linear' });
 
   const problemHeading = document.querySelector('.problem-heading');
   const problemWords = splitWords(problemHeading);
