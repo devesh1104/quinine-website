@@ -629,6 +629,38 @@ tailwind.config = {
   </div>
 </section>
 
+<section id="who-we-work-with" class="bg-offwhite" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="Who we work with">
+  <div class="max-w-[1100px] mx-auto px-6 lg:px-10">
+    <div class="mb-12">
+      <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-3 block">// Who we work with</span>
+      <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] who-heading" style="font-size:clamp(1.8rem, 3vw, 2.5rem);">Who We Work With.</h2>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="glass-card rounded-2xl p-8 who-card hoverable" style="opacity:0;">
+        <div class="accent-line mb-5"></div>
+        <h3 class="font-syne font-extrabold text-navy text-[1.15rem] mb-3 leading-snug">Startups Shipping AI</h3>
+        <p class="font-jakarta text-slate text-[0.9rem] leading-[1.7] mb-5">You're building fast. Your AI product is live or near launch, and your investors, clients, or regulators are starting to ask hard questions about security. You need a focused assessment that gives you a clear answer without slowing down your roadmap.</p>
+        <p class="font-mono text-electric text-[0.72rem] uppercase tracking-[0.08em] mb-4">Most startup assessments scoped &amp; delivered within two weeks.</p>
+        <a href="#contact" class="inline-flex items-center gap-1 font-jakarta font-semibold text-electric text-[0.85rem] hoverable" style="transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Book an assessment →</a>
+      </div>
+      <div class="glass-card rounded-2xl p-8 who-card hoverable" style="opacity:0;">
+        <div class="accent-line mb-5"></div>
+        <h3 class="font-syne font-extrabold text-navy text-[1.15rem] mb-3 leading-snug">Regulated Industries</h3>
+        <p class="font-jakarta text-slate text-[0.9rem] leading-[1.7] mb-5">You've deployed LLMs or RAG systems into a regulated environment. Financial services, legal, healthcare, insurance. Your compliance team is asking about the EU AI Act. Your CISO wants to know what happens when someone tries to break your AI.</p>
+        <p class="font-mono text-electric text-[0.72rem] uppercase tracking-[0.08em] mb-4">Ask us about our EU AI Act readiness assessment.</p>
+        <a href="#contact" class="inline-flex items-center gap-1 font-jakarta font-semibold text-electric text-[0.85rem] hoverable" style="transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Get EU AI Act ready →</a>
+      </div>
+      <div class="glass-card rounded-2xl p-8 who-card hoverable" style="opacity:0;">
+        <div class="accent-line mb-5"></div>
+        <h3 class="font-syne font-extrabold text-navy text-[1.15rem] mb-3 leading-snug">Enterprise AI at Scale</h3>
+        <p class="font-jakarta text-slate text-[0.9rem] leading-[1.7] mb-5">You have multiple AI systems in production across different teams. Shadow AI is already in your organisation. You need visibility into what's deployed, where the vulnerabilities sit, and how your AI attack surface maps to your existing risk framework.</p>
+        <p class="font-mono text-electric text-[0.72rem] uppercase tracking-[0.08em] mb-4">Book a discovery call to map your AI attack surface.</p>
+        <a href="#contact" class="inline-flex items-center gap-1 font-jakarta font-semibold text-electric text-[0.85rem] hoverable" style="transition: opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Map your attack surface →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="approach" class="bg-white" style="padding: clamp(60px, 10vw, 120px) 0;" aria-label="How it works">
   <div class="max-w-[900px] mx-auto px-6 lg:px-10">
     <div class="text-center mb-16">
@@ -1167,6 +1199,12 @@ tailwind.config = {
 
   ScrollTrigger.batch('.trust-stat', {
     onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.1 }),
+    start: 'top 88%'
+  });
+
+  // ── Who We Work With animations ──
+  ScrollTrigger.batch('.who-card', {
+    onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out', stagger: 0.12 }),
     start: 'top 88%'
   });
 
