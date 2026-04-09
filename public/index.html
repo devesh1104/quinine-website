@@ -481,7 +481,7 @@ tailwind.config = {
   <div class="relative z-10 text-center px-5 max-w-[840px] mx-auto">
     <div class="hero-badge mb-6 mx-auto w-fit" id="heroBadge" style="opacity:0;">
       <span class="badge-dot"></span>
-      <span>AI Security Specialists · Canary Wharf, London</span>
+      <span>AI Security Specialists. Canary Wharf, London.</span>
     </div>
     <h1 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.08] mb-6" style="font-size:clamp(2rem, 4vw, 3.5rem);" id="heroHeadline">
       Securing the Future for AI.
@@ -505,6 +505,15 @@ tailwind.config = {
   </div>
 </section>
 
+<section aria-label="EU AI Act deadline" style="background: #0A2463; padding: 16px 0;">
+  <div class="max-w-[1100px] mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-jakarta text-white text-[0.9rem] text-center sm:text-left">
+      <span class="font-semibold text-electric">The EU AI Act enforcement deadline is 2 August 2026.</span> Four months from today. Is your AI deployment ready?
+    </p>
+    <a href="#contact" class="flex-shrink-0 font-jakarta font-semibold text-[0.82rem] text-white border border-white/30 rounded-full px-5 py-2 hoverable" style="transition: border-color 0.2s, background 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.7)';this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)';this.style.background='transparent'">Book a Discovery Call →</a>
+  </div>
+</section>
+
 <section aria-label="Credibility" class="relative overflow-hidden" style="transform: rotate(-1deg) scale(1.05);">
   <div class="bg-deepnavy py-4">
     <div class="marquee-track" id="marqueeTrack">
@@ -514,11 +523,15 @@ tailwind.config = {
         <span class="marquee-item">MITRE ATLAS <span class="marquee-dot"></span></span>
         <span class="marquee-item">EU AI Act <span class="marquee-dot"></span></span>
         <span class="marquee-item">NIST AI RMF <span class="marquee-dot"></span></span>
+        <span class="marquee-item">GDPR <span class="marquee-dot"></span></span>
+        <span class="marquee-item">UK AI Act <span class="marquee-dot"></span></span>
         <span class="marquee-item">OWASP LLM Top 10 <span class="marquee-dot"></span></span>
         <span class="marquee-item">ISO 42001 <span class="marquee-dot"></span></span>
         <span class="marquee-item">MITRE ATLAS <span class="marquee-dot"></span></span>
         <span class="marquee-item">EU AI Act <span class="marquee-dot"></span></span>
         <span class="marquee-item">NIST AI RMF <span class="marquee-dot"></span></span>
+        <span class="marquee-item">GDPR <span class="marquee-dot"></span></span>
+        <span class="marquee-item">UK AI Act <span class="marquee-dot"></span></span>
       </div>
     </div>
   </div>
@@ -718,6 +731,24 @@ tailwind.config = {
           <p class="font-jakarta text-slate text-[0.9rem] mb-2">Alignment to the NIST AI Risk Management Framework for AI-specific risks.</p>
         </div>
       </div>
+      <div class="framework-row hoverable" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">GDPR &amp; UK AI Act</span>
+          <span class="arrow text-navy text-lg">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Alignment to UK data protection requirements and the upcoming UK AI regulatory framework — ensuring your AI deployments are compliant with both existing GDPR obligations and forthcoming AI-specific legislation.</p>
+        </div>
+      </div>
+      <div class="framework-row hoverable" data-framework>
+        <div class="flex items-center justify-between">
+          <span class="font-jakarta font-semibold text-[1.05rem] text-navy">EU AI Act</span>
+          <span class="arrow text-navy text-lg">→</span>
+        </div>
+        <div class="framework-desc">
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">Readiness assessment and compliance alignment ahead of the August 2026 enforcement deadline. We assess your AI systems against EU AI Act risk classifications and identify gaps before regulators do.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -728,21 +759,26 @@ tailwind.config = {
       <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-3 block">// Why enterprises trust Quinine</span>
       <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] trust-heading" style="font-size:clamp(1.8rem, 3vw, 2.5rem);">Built for enterprise rigour.</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
         <div class="accent-line mb-4"></div>
-        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">Level39</div>
-        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">London's leading technology accelerator, Canary Wharf</p>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.2rem, 2vw, 1.5rem);">OWASP LLM Top 10</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Every assessment mapped to the industry standard for LLM vulnerabilities</p>
       </div>
       <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
         <div class="accent-line mb-4"></div>
-        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">MSc</div>
-        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Cybersecurity, Lancaster University</p>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.2rem, 2vw, 1.5rem);">MITRE ATLAS</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Threat modelling aligned to the ML adversarial threat landscape</p>
       </div>
       <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
         <div class="accent-line mb-4"></div>
-        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.5rem, 2.5vw, 2rem);">48hr</div>
-        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">First contact to discovery call</p>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.2rem, 2vw, 1.5rem);">EU AI Act Ready</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Compliance-aligned testing ahead of August 2026 enforcement</p>
+      </div>
+      <div class="glass-card rounded-2xl p-7 trust-stat hoverable" style="opacity:0;">
+        <div class="accent-line mb-4"></div>
+        <div class="font-syne font-extrabold text-navy leading-none mb-2 stat-glow" style="font-size: clamp(1.2rem, 2vw, 1.5rem);">Fixed-Scope Delivery</div>
+        <p class="font-jakarta text-slate/70 text-[0.85rem] leading-relaxed">Clear pricing, defined timelines, no scope creep</p>
       </div>
     </div>
   </div>
@@ -763,15 +799,10 @@ tailwind.config = {
           <img src="/founder_new_image.jpg" alt="Chinmay, Founder of Quinine Cybersecurity" class="w-[140px] h-[170px] rounded-2xl flex-shrink-0 object-cover" loading="lazy">
           <div>
             <h3 class="font-jakarta font-bold text-[1.1rem] text-navy mb-1">Chinmay Khuspare</h3>
-            <p class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.08em] mb-3">Founder & CEO · MSc Cybersecurity, Lancaster University</p>
+            <p class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.08em] mb-3">Founder &amp; CEO</p>
             <p class="font-jakarta text-slate text-[0.9rem] leading-[1.7] about-body" style="opacity:0;">
-              I built Quinine Cybersecurity because I saw the same pattern across every organisation deploying AI: the models shipped fast, the security came later, and the gap kept growing. Quinine exists to close that gap. We provide hands-on AI security testing for companies that take their AI deployments seriously. Based at Level39, Canary Wharf.
+              I built Quinine Cybersecurity because I saw the same pattern across every organisation deploying AI: the models shipped fast, the security came later, and the gap kept growing. Quinine exists to close that gap. We provide hands-on AI security testing for companies that take their AI deployments seriously.
             </p>
-            <div class="flex flex-wrap items-center gap-3 mt-4">
-              <span class="tag-pill border border-navy/10 text-slate/60">MSc Cybersecurity</span>
-              <span class="tag-pill border border-navy/10 text-slate/60">Lancaster University</span>
-              <span class="tag-pill border border-navy/10 text-slate/60">Level39</span>
-            </div>
             <a href="https://www.linkedin.com/in/chinmay-khuspare-cybersecurity/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-jakarta font-semibold text-electric text-[0.85rem] mt-4 hoverable" style="transition: opacity 0.3s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">View LinkedIn <span>→</span></a>
           </div>
         </div>
