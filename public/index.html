@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quinine Cybersecurity — Enterprise AI Security</title>
-<meta name="description" content="Quinine delivers specialist security assessments for organisations deploying AI — identifying rigridsks in LLM systems, applications, and infrastructure before attackers do.">
+<title>Quinine Cybersecurity Enterprise AI Security</title>
+<meta name="description" content="Quinine delivers specialist security assessments for organisations deploying AI identifying rigridsks in LLM systems, applications, and infrastructure before attackers do.">
 <link rel="canonical" href="https://quininecybersecurity.com">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/favicon.png">
-<meta property="og:title" content="Quinine Cybersecurity — Enterprise AI Security">
-<meta property="og:description" content="Specialist security assessments for organisations deploying AI — identifying risks in LLM systems, applications, and infrastructure before attackers do.">
+<meta property="og:title" content="Quinine Cybersecurity Enterprise AI Security">
+<meta property="og:description" content="Specialist security assessments for organisations deploying AI identifying risks in LLM systems, applications, and infrastructure before attackers do.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://quininecybersecurity.com">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Quinine Cybersecurity — Enterprise AI Security">
+<meta name="twitter:title" content="Quinine Cybersecurity Enterprise AI Security">
 <meta name="twitter:description" content="Specialist security assessments for organisations deploying AI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -544,7 +544,7 @@ tailwind.config = {
       </div>
       <div class="lg:w-[45%] lg:mt-12">
         <p class="font-jakarta text-slate text-[0.95rem] leading-[1.7] problem-body" style="opacity:0;">
-          Organisations are shipping LLMs into production — chatbots, knowledge systems, decision engines — without understanding the attack surface they're creating. Most have no visibility into prompt injection risks, training data integrity, or how their RAG pipelines fail under adversarial conditions. That gap is where breaches happen.
+          Organisations are shipping LLMs into production chatbots, knowledge systems, decision engines without understanding the attack surface they're creating. Most have no visibility into prompt injection risks, training data integrity, or how their RAG pipelines fail under adversarial conditions. That gap is where breaches happen.
         </p>
       </div>
     </div>
@@ -557,7 +557,7 @@ tailwind.config = {
     <div class="text-center mb-14">
       <span class="font-mono text-electric text-[0.7rem] uppercase tracking-[0.12em] mb-4 block">// What we deliver</span>
       <h2 class="font-syne font-extrabold tracking-[-0.03em] leading-[1.1] mb-4 services-heading" style="font-size:clamp(1.8rem, 3.5vw, 2.8rem);">AI Security, From Model to Mission.</h2>
-      <p class="font-jakarta text-slate text-[0.95rem] max-w-[560px] mx-auto">Specialist security assessments for organisations deploying AI — from LLM penetration testing to RAG pipeline hardening.</p>
+      <p class="font-jakarta text-slate text-[0.95rem] max-w-[560px] mx-auto">Specialist security assessments for organisations deploying AI from LLM penetration testing to RAG pipeline hardening.</p>
     </div>
 
     <div class="services-grid" id="servicesGrid" style="margin-bottom: 20px;">
@@ -616,7 +616,7 @@ tailwind.config = {
           <span class="tag-pill bg-navy/5 text-slate/50">Coming Soon</span>
         </div>
         <h3 class="font-jakarta font-bold text-[1.05rem] text-navy mb-2">API & Endpoint Security</h3>
-        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">AI systems don't operate in isolation. We test the APIs and endpoints that connect them to your business — fuzzing, BOLA, IDOR, and authentication bypass for AI-connected infrastructure.</p>
+        <p class="font-jakarta text-slate text-[0.88rem] leading-relaxed">AI systems don't operate in isolation. We test the APIs and endpoints that connect them to your business fuzzing, BOLA, IDOR, and authentication bypass for AI-connected infrastructure.</p>
       </div>
     </div>
   </div>
@@ -706,7 +706,7 @@ tailwind.config = {
           <span class="arrow text-navy text-lg">→</span>
         </div>
         <div class="framework-desc">
-          <p class="font-jakarta text-slate text-[0.9rem] mb-2">AI management system standard — governance, risk assessment, responsible deployment.</p>
+          <p class="font-jakarta text-slate text-[0.9rem] mb-2">AI management system standard governance, risk assessment, responsible deployment.</p>
         </div>
       </div>
       <div class="framework-row hoverable" data-framework>
@@ -864,7 +864,7 @@ tailwind.config = {
 
   const isTouchDevice = window.matchMedia('(hover: none)').matches;
 
-  // Disable Lenis smooth scroll on mobile/touch — native scroll is lighter and more responsive
+  // Disable Lenis smooth scroll on mobile/touch native scroll is lighter and more responsive
   const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -895,7 +895,7 @@ tailwind.config = {
   const hasSeenPreloader = sessionStorage.getItem('preloaderSeen');
 
   if (hasSeenPreloader) {
-    // Skip preloader — show hero content immediately
+    // Skip preloader show hero content immediately
     preloader.style.display = 'none';
     lenis.start();
     gsap.set(heroWords, { y: 0 });
@@ -912,7 +912,7 @@ tailwind.config = {
       }
     });
 
-    // Fast preloader — under 0.5s total
+    // Fast preloader under 0.5s total
     preloaderTl.to(preloaderText, { opacity: 0, scale: 0.97, duration: 0.2, ease: 'power3.inOut' }, 0.15);
     preloaderTl.to(preloader, { clipPath: 'inset(0 0 100% 0)', duration: 0.4, ease: 'power4.inOut' }, 0.25);
     preloaderTl.to(heroWords, { y: 0, duration: 0.7, ease: 'power4.out', stagger: 0.03 }, '-=0.25');
@@ -1216,7 +1216,7 @@ tailwind.config = {
         const data = await res.json();
         if (res.ok) {
           if (data.duplicate) {
-            submitBtn.textContent = 'Already submitted — we\'ll be in touch';
+            submitBtn.textContent = 'Already submitted we\'ll be in touch';
             submitBtn.style.background = '#2E6FF2';
           } else {
             submitBtn.textContent = 'Submitted ✓';
@@ -1231,7 +1231,7 @@ tailwind.config = {
             submitBtn.disabled = false;
           }, 3000);
         } else {
-          submitBtn.textContent = data.error || 'Error — try again';
+          submitBtn.textContent = data.error || 'Error try again';
           submitBtn.style.background = '#dc2626';
           submitBtn.style.color = '#fff';
           setTimeout(() => {
@@ -1242,7 +1242,7 @@ tailwind.config = {
           }, 3000);
         }
       } catch (err) {
-        submitBtn.textContent = 'Network error — try again';
+        submitBtn.textContent = 'Network error try again';
         submitBtn.style.background = '#dc2626';
         submitBtn.style.color = '#fff';
         setTimeout(() => {
