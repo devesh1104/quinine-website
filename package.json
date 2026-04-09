@@ -16,6 +16,7 @@
   "type": "commonjs",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "@vercel/analytics": "^2.0.1",
     "compression": "^1.8.1",
     "cors": "^2.8.6",
     "express": "^5.2.1",
