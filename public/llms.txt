@@ -1,0 +1,27 @@
+# Quinine Cybersecurity Ltd.
+
+> Specialist AI cybersecurity consultancy delivering security assessments for organisations deploying large language models, agentic AI systems, and AI-integrated infrastructure.
+
+## Company
+
+Quinine Cybersecurity Ltd. is an AI security firm based at Level39, One Canada Square, Canary Wharf, London E14 5AB, United Kingdom. Founded by Chinmay Khuspare (MSc Cybersecurity, NCSC-certified Lancaster University), the firm specialises in identifying vulnerabilities in AI systems before attackers do. Quinine operates with a 48-hour response time and typical 2-3 week assessment delivery.
+
+## Services
+
+- **LLM Security Assessment**: In-depth testing of large language model deployments for prompt injection, data leakage, model inversion, jailbreaking, and all OWASP LLM Top 10 vulnerability categories.
+- **RAG Security and Hardening**: Security review of Retrieval-Augmented Generation pipelines including vector database access controls, embedding poisoning, data extraction, and knowledge base isolation.
+- **Agentic AI Testing**: Red team testing of autonomous AI agent systems covering tool misuse, privilege escalation, multi-agent trust boundary failures, and sandbox escape vectors.
+- **Shadow AI Discovery**: Discovery and risk assessment of unsanctioned AI tools and models deployed across the organisation, reducing unmanaged AI exposure and data leakage risk.
+- **API and Endpoint Security**: Security assessment of AI-facing APIs and model endpoints covering authentication, authorisation, rate limiting, BOLA/IDOR, and injection surface exposure.
+
+## Compliance Frameworks
+
+All assessments are aligned to: OWASP LLM Top 10, ISO 42001 (AI Management Systems), MITRE ATLAS, NIST AI Risk Management Framework, EU AI Act, GDPR & UK Data Protection Act, ISO 27001, and NCSC guidance.
+
+## Contact
+
+- Website: https://quininecybersecurity.com
+- Email: contact@quininecybersecurity.co.uk
+- Phone: +44 7990 817475
+- LinkedIn: https://www.linkedin.com/company/quinine-cybersecurity-ltd/
+- Book a call: https://calendly.com/quininecybersecurity
